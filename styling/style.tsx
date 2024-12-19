@@ -5,6 +5,10 @@ const style = StyleSheet.create({
         padding: 20,
         alignContent: 'center',
         justifyContent: "center",
+    }, 
+    hiddenElement: {
+        height: 0,
+        width: 0
     }
 
 })
