@@ -1,6 +1,7 @@
-import { TouchableOpacity, Text } from "react-native";
+import { TouchableOpacity, Text, View } from "react-native";
 import { ThemedView } from "../ThemedView";
 import { useState } from "react";
+import style from "@/styling/style";
 
 type DropdownSelectorProps = {
     options: string[];
@@ -21,7 +22,7 @@ export default function DropdownSelector({
     }
 
     return (
-        <ThemedView style={{ borderWidth: 1 }}>
+        <View style={style.dropdownSelector}>
             <TouchableOpacity onPress={() => toggleOpen(!isOpen)}>
                 <Text>{title}</Text>
             </TouchableOpacity>
@@ -34,6 +35,6 @@ export default function DropdownSelector({
                         <Text>{option}</Text>
                     </TouchableOpacity>
                 ))}
-        </ThemedView>
+        </View>
     );
 }

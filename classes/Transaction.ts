@@ -29,7 +29,7 @@ export class Transaction {
      * Creates a new Transaction object from the comma separated data file
      * @param type the string representation of the type of transaction
      * @param amount the string represenation of the amount of the transaction
-     * @param date the string representation of the date of the transaction
+     * @param date the string representation of the date of the transaction in the format yyyy-MM-dd
      * @param description the description of the transaction
      */
     public static buildFromString(type: string, amount: string, date: string, description: string, creationDate: string): Transaction {
@@ -86,7 +86,7 @@ export class Transaction {
         return transactions.map((transaction) => {
             const arr: string[] = transaction.split(",");
             try {
-                return Transaction.buildFromString(arr[0], arr[1], arr[2], arr[3], arr[4]);
+                return Transaction.buildFromString(arr[0], arr[1], arr[2].replace('/', '-'), arr[3], arr[4]);
             } catch (e) {
                 return null;
             }
@@ -103,9 +103,9 @@ export class Transaction {
         return (
             this.type +
             "," +
-            this.amount.toFixed(2).toString() +
+            this.amount.toFixed(2) +
             "," +
-            this.date.toLocaleDateString() +
+            this.date +
             "," +
             this.description + 
             ',' + 
