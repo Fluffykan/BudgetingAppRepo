@@ -1,5 +1,8 @@
 export abstract class DateMethod {
     public static getMonthZeroBased(index: number): string {
+        if (index < 0 || index > 11) {
+            throw new Error('Invalid index for month');
+        }
         return Month[index];
     }
 
@@ -63,6 +66,24 @@ export abstract class DateMethod {
         }
         return result;
     }
+
+    public static isLeapYear(date:Date): boolean {
+        return new Date(date.getFullYear(), 1, 29).getMonth() == 1;
+    }
+
+    public static getDaysInMonth(date:Date): number {
+        const month: number = date.getMonth();
+        const isLeapYear: boolean = this.isLeapYear(date);
+        return isLeapYear ? DAYS_IN_MONTH_LEAP[month] : DAYS_IN_MONTH_NON_LEAP[month];
+    }
+
+    public static getDaysInWeek(): string[] {
+        return DAYS;
+    }
+
+    public static getDaysInWeek_Short(): string[] {
+        return DAYS.map(day => day.substring(0, 3));
+    }
 }
 
 enum Month {
@@ -79,3 +100,7 @@ enum Month {
     "November",
     "December",
 }
+
+const DAYS_IN_MONTH_NON_LEAP:number[] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+const DAYS_IN_MONTH_LEAP:number[] = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+const DAYS:string[] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];

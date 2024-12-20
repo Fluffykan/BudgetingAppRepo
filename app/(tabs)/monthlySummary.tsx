@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useFocusEffect } from "expo-router";
 import { LineChart } from "react-native-chart-kit";
 import { DateMethod } from "@/classes/DateMethod";
+import Calendar from "@/components/myComponents/Calendar";
 
 export default function MonthlySummaryPage() {
     const monthlyTransactionsMap: Map<string, Transaction[]> = new Map();
@@ -27,7 +28,6 @@ export default function MonthlySummaryPage() {
     useEffect(() => {
         loadMap();
         calculateValues();
-        console.log('ue')
     }, [transactions]);
 
     /**
@@ -36,7 +36,6 @@ export default function MonthlySummaryPage() {
     const loadData = async () => {
         const dataFileContents = await FileSystem.readAsStringAsync(SAVE_FILE_PATH);
         setTransactions(Transaction.parseCsvSaveFile(dataFileContents));
-        console.log('load data')
     };
 
     const loadMap = () => {
@@ -51,8 +50,10 @@ export default function MonthlySummaryPage() {
         });
     };
 
-    const [xValues, setXValues] = useState<string[]>([]);
-    const [yValues, setYValues] = useState<number[]>([]);
+    // Line Graph Params
+
+    const [xValues, setXValues] = useState<string[]>(['s']);
+    const [yValues, setYValues] = useState<number[]>([0]);
 
     const calculateValues = () => {
 
@@ -72,8 +73,14 @@ export default function MonthlySummaryPage() {
         setXValues(DateMethod.getPast5Months_Myyyy_Short(new Date()).reverse());
     }
 
+    // Calendar Params
+
+    const [date, setDate] = useState<Date>(new Date());
+
     return (
         <View style={style.pageContainer}>
+            <Calendar date={date} transactions={[]} setDate={setDate} />
+
             <LineChart
                 data={{
                     labels: xValues,
@@ -110,10 +117,6 @@ export default function MonthlySummaryPage() {
                 borderRadius: 16
                 }}
             />
-
-            <Button title="manual load" onPress={() => loadData()} />
-            <Button title="map" onPress={() => console.log(yValues)} />
-            <Button title="amount" onPress={() => console.log(monthlyTransactionsMap.has('122024'))} />
         </View>
     );
 }

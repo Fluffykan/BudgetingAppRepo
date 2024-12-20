@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 
 
 const style = StyleSheet.create({
@@ -31,6 +31,9 @@ const style = StyleSheet.create({
     flexRowContainer: {
         flexDirection: "row",
     },
+    borderedContainer: {
+        borderWidth: 1
+    },
     centeredText: {
         textAlign: "center",
     },
@@ -42,7 +45,29 @@ const style = StyleSheet.create({
     },
     dropdownSelector: {
         borderWidth: 1,
+    }, 
+    calendarGridEnabled: {
+        backgroundColor: 'white',
+        borderWidth: 1,
+        width: Dimensions.get('screen').width * 0.9 / 7,
+        height: Dimensions.get('screen').height * 0.05,
     },
+    calendarGridDisabled: {
+        backgroundColor: 'grey',
+        borderWidth: 1,
+        width: Dimensions.get('screen').width * 0.9 / 7,
+        height: Dimensions.get('screen').height * 0.05,
+    }, 
+    calendarGridHeader: {
+        backgroundColor: 'white',
+        borderWidth: 1,
+        width: Dimensions.get('screen').width * 0.9 / 7,
+        height: Dimensions.get('screen').height * 0.05,
+    }, 
+    calendarMonthNavBar: {
+        justifyContent: 'space-between',
+        flexDirection: 'row'
+    }
 });
 
 export default style;
