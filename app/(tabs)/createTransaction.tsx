@@ -34,7 +34,6 @@ export default function createTransactionPage() {
 
     const [transactionType, setType] = useState("Select Type");
     const [amount, setAmount] = useState<number>(0);
-    const [amtDisp, setAmtDisp] = useState("");
     const [date, setDate] = useState(new Date());
     const [description, setDescription] = useState("");
 
@@ -60,18 +59,29 @@ export default function createTransactionPage() {
             console.log("no type chosen");
             return;
         }
-        const newTransaction = new Transaction(transactionType.toString(), amount, date, description);
+        const newTransaction = new Transaction(transactionType.toString(), Number(formatAmount()), date, description);
         const currData = await FileSystem.readAsStringAsync(path);
         const appendedData = currData + "\n" + newTransaction.toString();
         await FileSystem.writeAsStringAsync(path, appendedData);
         showAlert();
     }
 
-    function handleOnChangeText(text: string) {
-        console.log(text + " | " + Number(text) + " | " + amount);
+    // input amount component
+
+    function handleOnChangeTextAmount(text: string) {
         if (!isNaN(Number(text))) {
             setAmount(Number(text));
         }
+    }
+
+    /**
+     * 
+     * @returns a string representing the amount input by the user in 2 decimal places
+     */
+    function formatAmount(): string {
+      const decimal = amount % 100 < 10 ? '0' + amount % 100 : amount % 100;
+      const int = Math.floor(amount / 100);
+      return int + '.' + decimal;
     }
 
 
@@ -96,7 +106,7 @@ export default function createTransactionPage() {
             />
             <Text>Amount</Text>
             <TouchableOpacity onPress={handleClick}>
-              <Text>{Math.floor(amount / 100) + '.' + amount % 100}</Text>
+              <Text>{formatAmount()}</Text>
             </TouchableOpacity>
 
             <View style={style.hiddenElement}>
@@ -107,14 +117,14 @@ export default function createTransactionPage() {
                     maxLength={12}
                     inputMode="decimal"
                     caretHidden={true}
-                    onChangeText={handleOnChangeText}
+                    onChangeText={handleOnChangeTextAmount}
                 />
             </View>
 
             <Text>Date</Text>
             <DatePicker date={date} setDate={setDate} />
             <Text>Description</Text>
-            <TextInput placeholder="(Optional)" onChangeText={setDescription} />
+            <TextInput placeholder="(Max 50 chars)" maxLength={50} onChangeText={setDescription} />
             <Button title="Save" onPress={() => handleSave()} />
         </View>
     );
