@@ -26,16 +26,13 @@ export default function HomeScreen() {
     );
 
     useEffect(() => {
-        console.log('save');
         handleSave();
     }, [transactions])
     
     const enusreDataFileExists = async () => {
-        console.log("starting");
         const path = FileSystem.documentDirectory + "/data.txt";
         // check for data file
         const dirExists = await FileSystem.getInfoAsync(path);
-        console.log("...");
 
         // create file if it does not exist
         if (!dirExists) {
@@ -43,24 +40,18 @@ export default function HomeScreen() {
         }
 
         const content = await FileSystem.readAsStringAsync(path);
-        console.log(content);
     };
 
     /**
      * 
      */
-    async function readSaveFile() {
-        console.log("start read");
+    const readSaveFile = async() => {
         const content = await FileSystem.readAsStringAsync(path);
-        console.log(content);
         setTransactions(Transaction.parseCsvSaveFile(content));
-        console.log("end read");
     }
 
     async function clearSaveFile() {
-        console.log("start clear");
         await FileSystem.writeAsStringAsync(path, "");
-        console.log("end clear");
         readSaveFile();
     }
     /**
@@ -71,6 +62,8 @@ export default function HomeScreen() {
     }
 
     function test() {
+        const date = new Date();
+        console.log(date.getMonth().toString() + date.getFullYear());
     }
 
     return (

@@ -24,6 +24,7 @@ export default function TabLayout() {
           default: {},
         }),
       }}>
+
       <Tabs.Screen
         name="index"
         options={{
@@ -31,6 +32,14 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />,
         }}
       />
+      <Tabs.Screen
+        name="monthlySummary"
+        options={{
+          title: 'Summary',
+          tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />,
+        }}
+      />
+
     </Tabs>
   );
 }

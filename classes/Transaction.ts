@@ -9,7 +9,7 @@ export class Transaction {
      * Creates a new Transaction object using the inputs by the user from app
      * @throws {InvalidTransactionTypeException} if the type is not one of the predefined transaction types
      */
-    constructor(type: string, amount: number, date: Date, description?: string, id?:string) {
+    constructor(type: string, amount: number, date: Date, description?: string, id?: string) {
         this.type = Transaction.parseType(type);
         this.amount = amount;
         this.date = date;
@@ -32,7 +32,13 @@ export class Transaction {
      * @param date the string representation of the date of the transaction in the format yyyy-MM-dd
      * @param description the description of the transaction
      */
-    public static buildFromString(type: string, amount: string, date: string, description: string, creationDate: string): Transaction {
+    public static buildFromString(
+        type: string,
+        amount: string,
+        date: string,
+        description: string,
+        creationDate: string
+    ): Transaction {
         return new Transaction(type, Number.parseFloat(amount), new Date(date), description, creationDate);
     }
 
@@ -83,16 +89,16 @@ export class Transaction {
      */
 
     public static parseTransactions(transactions: string[]): Transaction[] {
-        return transactions.map((transaction) => {
-            const arr: string[] = transaction.split(",");
-            try {
-                return Transaction.buildFromString(arr[0], arr[1], arr[2].replace('/', '-'), arr[3], arr[4]);
-            } catch (e) {
-                return null;
-            }
-        })
-        .filter(transaction => transaction != null);
-
+        return transactions
+            .map((transaction) => {
+                const arr: string[] = transaction.split(",");
+                try {
+                    return Transaction.buildFromString(arr[0], arr[1], arr[2].replace("/", "-"), arr[3], arr[4]);
+                } catch (e) {
+                    return null;
+                }
+            })
+            .filter((transaction) => transaction != null);
     }
 
     /**
@@ -100,22 +106,12 @@ export class Transaction {
      * @returns a string representation of the transaction
      */
     public toString(): string {
-        return (
-            this.type +
-            "," +
-            this.amount.toFixed(2) +
-            "," +
-            this.date +
-            "," +
-            this.description + 
-            ',' + 
-            this.id
-        );
+        return this.type + "," + this.amount.toFixed(2) + "," + this.date + "," + this.description + "," + this.id;
     }
 }
 
 export enum TransactionType {
-    FOOD = 'Food',
-    TRANSPORT = 'Transport',
-    OTHERS = 'Others'
+    FOOD = "Food",
+    TRANSPORT = "Transport",
+    OTHERS = "Others",
 }

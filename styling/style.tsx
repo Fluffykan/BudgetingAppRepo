@@ -3,6 +3,7 @@ import { StyleSheet } from "react-native";
 
 const style = StyleSheet.create({
     pageContainer: {
+        paddingTop: 40,
         padding: 20,
         alignContent: "center",
         flex: 1,
