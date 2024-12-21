@@ -14,21 +14,17 @@ export default function IconButton({ name, size, color, title, onPress }: IconBu
 
     const IconButtonStyle = StyleSheet.create({
         centerdText: {
-            textAlign: 'center',
+            textAlign: "center",
             fontSize: iconSize / 2,
-        }
-    })
+        },
+    });
 
     return (
-        <TouchableOpacity onPress={onPress}>
-                {/*if the name provided is invalid, it will be converted into a '?', so any errorneous inputs can be ignored*/}
-                {/*@ts-ignore*/}
-                <FontAwesome name={name} color={color} size={iconSize} style={{textAlign: 'center'}} />
+        <TouchableOpacity onPress={onPress} style={{ flex: 1 }}>
+            {/*if the name provided is invalid, it will be converted into a '?', so any errorneous inputs can be ignored*/}
+            {/*@ts-ignore*/}
+            <FontAwesome name={name} color={color} size={iconSize} style={{ textAlign: "center" }} />
             {title && <Text style={IconButtonStyle.centerdText}>{title}</Text>}
         </TouchableOpacity>
     );
-
-
 }
-
-

@@ -39,7 +39,13 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />,
         }}
       />
-
+      <Tabs.Screen
+        name="trends"
+        options={{
+          title: 'Trends',
+          tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />,
+        }}
+      />
     </Tabs>
   );
 }

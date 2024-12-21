@@ -19,30 +19,30 @@ export default function CreateTransactionButton({ transactions, setTransactions 
         console.log("toggle");
         setVisible(!isVisible);
     }
+
+    const unsavedChangesWarning = () =>
+        Alert.alert(
+            "Warning",
+            "There are unsaved changes, exit anyway?",
+            [
+                {
+                    text: "Close",
+                    onPress: () => setVisible(false),
+                },
+            ],
+            {
+                cancelable: true,
+            }
+        );
+
     return (
         <TouchableOpacity style={createTransactionButtonStyle.floatingButton} onPress={toggleModal}>
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={isVisible}
-                onRequestClose={() => {
-                    Alert.alert(
-                        "Warning",
-                        "There are unsaved changes, exit anyway?",
-                        [
-                            {
-                                text: "Close",
-                                onPress: () => setVisible(false),
-                            },
-                        ],
-                        {
-                            cancelable: true,
-                        }
-                    );
-                }}
-            >
-                <CreateTransactionPage transactions={transactions} setTransactions={setTransactions} setVisible={setVisible}/>
-                <IconButton name="close" onPress={() => setVisible(false)} color="red" />
+            <Modal animationType="slide" transparent={true} visible={isVisible} onRequestClose={unsavedChangesWarning}>
+                <CreateTransactionPage
+                    transactions={transactions}
+                    setTransactions={setTransactions}
+                    setVisible={setVisible}
+                />
             </Modal>
             <FontAwesome name="plus" style={createTransactionButtonStyle.iconStyle} size={30} />
         </TouchableOpacity>
@@ -66,34 +66,17 @@ const createTransactionButtonStyle = StyleSheet.create({
     },
 });
 
-
 type CreateTransactionPageProps = {
     transactions: Transaction[];
     setTransactions: (newTransactions: Transaction[]) => void;
-    setVisible: (visibility:boolean) => void;
-}
-export function CreateTransactionPage({transactions, setTransactions, setVisible}:CreateTransactionPageProps) {
+    setVisible: (visibility: boolean) => void;
+};
+export function CreateTransactionPage({ transactions, setTransactions, setVisible }: CreateTransactionPageProps) {
     // useStates to store the user's inputs
     const [transactionType, setType] = useState("Select Type");
     const [amount, setAmount] = useState<number>(0);
     const [date, setDate] = useState(new Date());
     const [description, setDescription] = useState("");
-
-    const showAlertSuccess = () =>
-        Alert.alert(
-            "Success!",
-            "Your transaction has been saved",
-            [
-                {
-                    text: "Back",
-                    onPress: () => setVisible(false), // navigate to home screen
-                },
-            ],
-            {
-                cancelable: true,
-                onDismiss: () => setVisible(false), // navigate to home screen
-            }
-        );
 
     const showAlertError = (typeNotDefined: boolean, amountEqualsZero: boolean) => {
         const errorMsg = (typeNotDefined ? "No type chosen\n" : "") + (amountEqualsZero ? "Amount cannot be 0" : "");
@@ -115,7 +98,6 @@ export function CreateTransactionPage({transactions, setTransactions, setVisible
      * Updates the save file with the new transaction
      */
     function appendNewTransaction() {
-        console.log("saving");
         if (transactionType == "Select Type" || amount == 0) {
             showAlertError(transactionType == "Select Type", amount == 0);
             return;
@@ -127,7 +109,7 @@ export function CreateTransactionPage({transactions, setTransactions, setVisible
             description
         );
         setTransactions([...transactions, newTransaction]);
-        showAlertSuccess();
+        setVisible(false);
     }
 
     // input amount component
@@ -191,7 +173,14 @@ export function CreateTransactionPage({transactions, setTransactions, setVisible
                     <Text>Description</Text>
                     <TextInput placeholder="(Max 50 chars)" maxLength={50} onChangeText={setDescription} />
                 </View>
-                <Button title="Save" onPress={appendNewTransaction} />
+                <View style={style.flexRowContainer}>
+                    <View style={{ width: "50%" }}>
+                        <Button title="Close" onPress={() => setVisible(false)} />
+                    </View>
+                    <View style={{ width: "50%" }}>
+                        <Button title="Save" onPress={appendNewTransaction} />
+                    </View>
+                </View>
             </View>
         </View>
     );
