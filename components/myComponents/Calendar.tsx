@@ -17,7 +17,8 @@ type CalendarProps = {
  *
  * @param date any date within the month
  * @param transactions an array of transactions that occured within the month
- * @returns a 5x7 grid of {@code CalendarGrid} representing a month on the calendar
+ * @returns a 5x7 grid composed of {@code CalendarGridEnabled} or {@code CalendarGridDisabled}
+ * representing a month on the calendar
  */
 export default function Calendar({ date, transactionsMap, setDate }: CalendarProps) {
     // Initialize the calendar
@@ -96,16 +97,19 @@ export default function Calendar({ date, transactionsMap, setDate }: CalendarPro
     const [isVisible, setVisible] = useState(false);
 
     return (
-        <View style={style.calendarContainer}>
+        <View style={style.flexContainer}>
             <CalendarMonthNavBar date={date} setDate={setDate} />
             <CalendarGridRowHeader />
-            {arrCalendar.map((week) => (
-                <CalendarGridRow dates={week} transactionValues={arrAmount} handleOpenModal={handleOpenModal} />
-            ))}
+            <View style={style.flexContainer}>
+                {arrCalendar.map((week) => (
+                    <CalendarGridRow dates={week} transactionValues={arrAmount} handleOpenModal={handleOpenModal} />
+                ))}
+            </View>
 
             <Modal visible={isVisible} style={{ backgroundColor: "grey" }} animationType="slide" transparent={true}>
                 <TouchableOpacity onPress={() => setVisible(false)} style={{ flex: 1 }}></TouchableOpacity>
                 <View style={style.calendarPopup}>
+                    <PopupDateNavBar dateInMonth={date} setDate={setSelectedDate} date={selectedDate} />
                     <TransactionDisplay
                         styling="popup"
                         transactions={transactionsOnDate}
@@ -113,6 +117,34 @@ export default function Calendar({ date, transactionsMap, setDate }: CalendarPro
                     />
                 </View>
             </Modal>
+        </View>
+    );
+}
+
+type PopupDateNavBarProps = {
+    date: number;
+    setDate: (newDate: number) => void;
+    dateInMonth: Date;
+};
+
+function PopupDateNavBar({ date, setDate, dateInMonth }: PopupDateNavBarProps) {
+    function handleNextDay() {
+        if (date < DateMethod.getDaysInMonth(dateInMonth)) {
+            setDate(date + 1);
+        }
+    }
+
+    function handlePrevDay() {
+        if (date > 1) {
+            setDate(date - 1);
+        }
+    }
+
+    return (
+        <View style={style.calendarMonthNavBar}>
+            <IconButton name="angle-left" onPress={handlePrevDay} />
+            <Text>{date + " " + DateMethod.format_Myyyy(dateInMonth)}</Text>
+            <IconButton name="angle-right" onPress={handleNextDay} />
         </View>
     );
 }
@@ -159,7 +191,7 @@ function CalendarMonthNavBar({ date, setDate }: CalendarMonthNavBarProps) {
  */
 function CalendarGridRowHeader() {
     return (
-        <View style={style.flexRowContainer}>
+        <View style={style.rowContainer}>
             {DateMethod.getDaysInWeek_Short().map((day) => (
                 <View style={style.calendarGridHeader}>
                     <Text style={style.centeredText}>{day}</Text>
