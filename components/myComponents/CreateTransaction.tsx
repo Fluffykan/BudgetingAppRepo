@@ -16,7 +16,6 @@ export default function CreateTransactionButton({ transactions, setTransactions 
     const [isVisible, setVisible] = useState(false);
 
     function toggleModal() {
-        console.log("toggle");
         setVisible(!isVisible);
     }
 

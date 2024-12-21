@@ -87,8 +87,6 @@ export default function Calendar({ date, transactionsMap, setDate }: CalendarPro
     // function to handle opening the modal when a date is selected
     function handleOpenModal(datePressed: number) {
         setSelectedDate(datePressed);
-        console.log(transactionsOnDate);
-
         setVisible(true);
     }
 
