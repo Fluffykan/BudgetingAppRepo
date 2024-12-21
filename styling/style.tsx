@@ -1,16 +1,13 @@
 import { Dimensions, StyleSheet } from "react-native";
 
 // constants
-const MAX_COMPONENT_WIDTH_PERCENTAGE = 0.9;
+export const DIMENSIONS = Dimensions;
 const BG_COLOR = "white";
 const BG_COLOR_DISABLED = "grey";
 const BG_COLOR_POPUP = "#b5b5b5";
 
 // calendar grid props
-const CALENDAR_GRID_HEIGHT = Dimensions.get("screen").height * 0.1;
-// width is abit wonky, might cause UI issues on other platforms
-// not sure how to debug yet, leaving it as is for now
-const CALENDAR_GRID_WIDTH = (Dimensions.get("window").width * MAX_COMPONENT_WIDTH_PERCENTAGE) / 7;
+const CALENDAR_GRID_WIDTH = '14.28%'; // ~ 100 / 7
 const CALENDAR_GRID_PADDING = 2;
 
 const style = StyleSheet.create({
@@ -40,9 +37,15 @@ const style = StyleSheet.create({
         justifyContent: "center",
         alignContent: "center",
     },
+    flexContainer: {
+        flex: 1,
+    },
+    rowContainer: {
+        flexDirection: 'row'
+    },
     flexRowContainer: {
-        width: "100%",
         flexDirection: "row",
+        flex: 1,
     },
     borderedContainer: {
         borderWidth: 1,
@@ -67,29 +70,25 @@ const style = StyleSheet.create({
     dropdownSelector: {
         borderWidth: 1,
     },
-    calendarContainer: {
-        flex: 1,
-    },
     calendarGridEnabled: {
         backgroundColor: BG_COLOR,
         borderWidth: 1,
         width: CALENDAR_GRID_WIDTH,
-        height: CALENDAR_GRID_HEIGHT,
         padding: CALENDAR_GRID_PADDING,
+        flex: 1,
     },
     calendarGridDisabled: {
         backgroundColor: BG_COLOR_DISABLED,
         borderWidth: 1,
         width: CALENDAR_GRID_WIDTH,
-        height: CALENDAR_GRID_HEIGHT,
         padding: CALENDAR_GRID_PADDING,
+        flex: 1,
     },
     calendarGridHeader: {
         backgroundColor: BG_COLOR,
-        borderWidth: 1,
         width: CALENDAR_GRID_WIDTH,
-        height: CALENDAR_GRID_HEIGHT,
         padding: CALENDAR_GRID_PADDING,
+        flex: 1
     },
     calendarGridAmountContainer: {
         justifyContent: "center",
@@ -107,13 +106,13 @@ const style = StyleSheet.create({
         justifyContent: "space-between",
         flexDirection: "row",
         alignItems: "center",
+        paddingVertical: 10,
     },
     calendarPopup: {
         flex: 1,
         backgroundColor: BG_COLOR_POPUP,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
-        paddingVertical: 20,
     },
 });
 

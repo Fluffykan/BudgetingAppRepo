@@ -5,7 +5,6 @@ import DatePicker from "@/components/myComponents/DatePicker";
 import { Transaction, TransactionType } from "@/classes/Transaction";
 import style from "@/styling/style";
 import { FontAwesome } from "@expo/vector-icons";
-import IconButton from "./IconButton";
 
 type CreateTransactionButtonProps = {
     transactions: Transaction[];
