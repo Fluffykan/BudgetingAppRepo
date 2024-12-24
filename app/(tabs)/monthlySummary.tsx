@@ -8,10 +8,19 @@ import { useFocusEffect } from "expo-router";
 import { DateMethod } from "@/classes/DateMethod";
 import Calendar from "@/components/myComponents/Calendar";
 import { PieChart } from "react-native-chart-kit";
+import { TransactionType } from "@/classes/TransactionType";
+import DropdownTrayHeader from "@/components/myComponents/DropdownTrayHeader";
 
 export default function MonthlySummaryPage() {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [monthlyTransactionsMap, setMap] = useState<Map<string, Transaction[]>>(new Map());
+    type PieChartData = {
+      name:string,
+      population:number,
+      color: string,
+    }
+    const [pieChartData, setPieChartData] = useState<PieChartData[]>([]);
+
 
     useFocusEffect(
         useCallback(() => {
@@ -59,6 +68,9 @@ export default function MonthlySummaryPage() {
         });
 
         setMap(map);
+
+        // update the pie chart whenever a new transaction is created or removed
+        loadPieChart();
     };
 
     // Calendar Params
@@ -67,44 +79,36 @@ export default function MonthlySummaryPage() {
     const [date, setDate] = useState<Date>(new Date());
 
     // Pie Chart Params
-    const LEGEND_FONT_SIZE = 10;
-    const data = [
-        {
-            name: "Seoul",
-            population: 21500000,
-            color: "rgba(131, 167, 234, 1)",
-            legendFontColor: "#7F7F7F",
-            legendFontSize: LEGEND_FONT_SIZE,
-        },
-        {
-            name: "Toronto",
-            population: 2800000,
-            color: "#F00",
-            legendFontColor: "#7F7F7F",
-            legendFontSize: LEGEND_FONT_SIZE,
-        },
-        {
-            name: "Beijing",
-            population: 527612,
-            color: "red",
-            legendFontColor: "#7F7F7F",
-            legendFontSize: LEGEND_FONT_SIZE,
-        },
-        {
-            name: "New York",
-            population: 8538000,
-            color: "#ffffff",
-            legendFontColor: "#7F7F7F",
-            legendFontSize: LEGEND_FONT_SIZE,
-        },
-        {
-            name: "Moscow",
-            population: 11920000,
-            color: "rgb(0, 0, 255)",
-            legendFontColor: "#7F7F7F",
-            legendFontSize: LEGEND_FONT_SIZE,
-        },
-    ];
+
+    const [isPieChartVisible, setIsPieChartVisible] = useState(false);
+
+    // update the pie chart whenever the date (which determines which month the calendar is displaying)
+    // is changed
+    useEffect(() => {
+      loadPieChart();
+    }, [date]);
+
+    const loadPieChart = () => {
+      const currMonthTransactions:Transaction[] = monthlyTransactionsMap.get(DateMethod.format_MMyyyy(date)) ?? [];
+
+      // code to generate a random color
+      // source: https://www.npmjs.com/package/react-native-svg-charts
+      const randomColor = () => ('#' + ((Math.random() * 0xffffff) << 0).toString(16) + '000000').slice(0, 7);
+
+      // calculate the total amount spent on each type of transaction
+      const data:PieChartData[] = TransactionType.getTypes().map(type => {
+        const totalAmt:number = currMonthTransactions.filter(transaction => transaction.getType() == type)
+          .map(transaction => transaction.getAmount())
+          .reduce((sum, next) => sum + next, 0);
+        return {
+          name: type,
+          population: totalAmt,
+          color: randomColor(),
+        }
+      });
+
+      setPieChartData(data);
+    }
 
     const chartConfig = {
         backgroundGradientFrom: "#1E2923",
@@ -118,12 +122,15 @@ export default function MonthlySummaryPage() {
     };
     return (
         <View style={style.pageContainer}>
-            <View style={{ flex: 1 }}>
+            <View style={style.flexContainer}>
                 <Calendar date={date} transactionsMap={monthlyTransactionsMap} setDate={setDate} />
             </View>
-            <View style={{ borderWidth: 1 }}>
+
+            <DropdownTrayHeader title="View Spending Breakdown By Category" isOpen={isPieChartVisible} setIsOpen={setIsPieChartVisible} />
+            { isPieChartVisible &&
+            <View>
                 <PieChart
-                    data={data}
+                    data={pieChartData}
                     width={DIMENSIONS.get("screen").width}
                     height={DIMENSIONS.get("screen").height * 0.3}
                     chartConfig={chartConfig}
@@ -132,6 +139,7 @@ export default function MonthlySummaryPage() {
                     paddingLeft={"15"}
                 />
             </View>
+            }
         </View>
     );
 }
