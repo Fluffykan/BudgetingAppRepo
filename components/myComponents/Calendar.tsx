@@ -1,7 +1,7 @@
 import { DateMethod } from "@/classes/DateMethod";
 import { Transaction } from "@/classes/Transaction";
 import style from "@/styling/style";
-import { Button, Modal, Text, TouchableOpacity, View } from "react-native";
+import { Modal, Text, TouchableOpacity, View } from "react-native";
 import IconButton from "./IconButton";
 import { useEffect, useState } from "react";
 import TransactionDisplay from "./TransactionDisplay";

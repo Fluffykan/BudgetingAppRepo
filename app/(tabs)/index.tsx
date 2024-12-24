@@ -1,11 +1,11 @@
-import { Button, View, Text, Keyboard, Modal, Alert, Pressable, StyleSheet } from "react-native";
+import { Button, View, Text } from "react-native";
 import style from "@/styling/style";
 import * as FileSystem from "expo-file-system";
 import { useCallback, useEffect, useState } from "react";
 import { Transaction } from "@/classes/Transaction";
 import { useFocusEffect } from "expo-router";
 import TransactionDisplay from "@/components/myComponents/TransactionDisplay";
-import CreateTransactionButton, { CreateTransactionPage } from "@/components/myComponents/CreateTransaction";
+import CreateTransactionButton from "@/components/myComponents/CreateTransaction";
 
 export default function HomeScreen() {
     const path = FileSystem.documentDirectory + "/data.txt";
@@ -37,8 +37,6 @@ export default function HomeScreen() {
         if (!dirExists) {
             await FileSystem.writeAsStringAsync(path, "testing");
         }
-
-        const content = await FileSystem.readAsStringAsync(path);
     };
 
     /**

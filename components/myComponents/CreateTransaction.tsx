@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Button, Alert, TouchableOpacity, StyleSheet, Modal, Pressable } from "react-native";
+import { View, Text, TextInput, Button, Alert, TouchableOpacity, StyleSheet, Modal } from "react-native";
 import { useRef, useState } from "react";
 import DropdownSelector from "@/components/myComponents/DropdownSelector";
 import DatePicker from "@/components/myComponents/DatePicker";

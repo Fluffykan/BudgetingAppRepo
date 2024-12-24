@@ -1,5 +1,4 @@
 import { TouchableOpacity, Text, View } from "react-native";
-import { ThemedView } from "../ThemedView";
 import { useState } from "react";
 import style from "@/styling/style";
 

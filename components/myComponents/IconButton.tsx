@@ -1,5 +1,5 @@
 import { FontAwesome } from "@expo/vector-icons";
-import { Button, TouchableOpacity, Text, View, StyleSheet } from "react-native";
+import { TouchableOpacity, Text, StyleSheet } from "react-native";
 
 type IconButtonProps = {
     name: string;
