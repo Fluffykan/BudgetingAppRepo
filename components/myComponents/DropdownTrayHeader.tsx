@@ -15,31 +15,30 @@ type DropDownTrayHeaderProps = {
  * @returns a TouchableOpacity that toggles the value of isOpen
  */
 export default function DropdownTrayHeader({ title, isOpen, setIsOpen }: DropDownTrayHeaderProps) {
-
     if (isOpen) {
         return (
             <TouchableOpacity onPress={() => setIsOpen(false)} style={style.buttonContainer}>
                 <Text>{title} </Text>
                 <FontAwesome name="chevron-up" />
             </TouchableOpacity>
-        )
+        );
     } else {
         return (
             <TouchableOpacity onPress={() => setIsOpen(true)} style={style.buttonContainer}>
                 <Text>{title} </Text>
                 <FontAwesome name="chevron-down" />
             </TouchableOpacity>
-        )
+        );
     }
 }
 
 const style = StyleSheet.create({
     buttonContainer: {
-        height: '5%',
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row',
-        borderWidth: 1
-    }
-})
+        height: "5%",
+        width: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "row",
+        borderWidth: 1,
+    },
+});

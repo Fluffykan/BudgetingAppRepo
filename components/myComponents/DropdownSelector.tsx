@@ -9,11 +9,7 @@ type DropdownSelectorProps = {
     store: (type: string) => void;
 };
 
-export default function DropdownSelector({
-    options,
-    title,
-    store,
-}: DropdownSelectorProps) {
+export default function DropdownSelector({ options, title, store }: DropdownSelectorProps) {
     const [isOpen, toggleOpen] = useState(false);
 
     function onSelect(option: string) {
@@ -28,10 +24,7 @@ export default function DropdownSelector({
             </TouchableOpacity>
             {isOpen &&
                 options.map((option) => (
-                    <TouchableOpacity
-                        onPress={() => onSelect(option)}
-                        key={option}
-                    >
+                    <TouchableOpacity onPress={() => onSelect(option)} key={option}>
                         <Text>{option}</Text>
                     </TouchableOpacity>
                 ))}

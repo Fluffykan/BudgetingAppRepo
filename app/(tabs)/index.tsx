@@ -2,7 +2,7 @@ import { Button, View, Text, Keyboard, Modal, Alert, Pressable, StyleSheet } fro
 import style from "@/styling/style";
 import * as FileSystem from "expo-file-system";
 import { useCallback, useEffect, useState } from "react";
-import { Transaction, TransactionType } from "@/classes/Transaction";
+import { Transaction } from "@/classes/Transaction";
 import { useFocusEffect } from "expo-router";
 import TransactionDisplay from "@/components/myComponents/TransactionDisplay";
 import CreateTransactionButton, { CreateTransactionPage } from "@/components/myComponents/CreateTransaction";

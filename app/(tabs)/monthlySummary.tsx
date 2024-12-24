@@ -15,12 +15,11 @@ export default function MonthlySummaryPage() {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [monthlyTransactionsMap, setMap] = useState<Map<string, Transaction[]>>(new Map());
     type PieChartData = {
-      name:string,
-      population:number,
-      color: string,
-    }
+        name: string;
+        population: number;
+        color: string;
+    };
     const [pieChartData, setPieChartData] = useState<PieChartData[]>([]);
-
 
     useFocusEffect(
         useCallback(() => {
@@ -85,30 +84,31 @@ export default function MonthlySummaryPage() {
     // update the pie chart whenever the date (which determines which month the calendar is displaying)
     // is changed
     useEffect(() => {
-      loadPieChart();
+        loadPieChart();
     }, [date]);
 
     const loadPieChart = () => {
-      const currMonthTransactions:Transaction[] = monthlyTransactionsMap.get(DateMethod.format_MMyyyy(date)) ?? [];
+        const currMonthTransactions: Transaction[] = monthlyTransactionsMap.get(DateMethod.format_MMyyyy(date)) ?? [];
 
-      // code to generate a random color
-      // source: https://www.npmjs.com/package/react-native-svg-charts
-      const randomColor = () => ('#' + ((Math.random() * 0xffffff) << 0).toString(16) + '000000').slice(0, 7);
+        // code to generate a random color
+        // source: https://www.npmjs.com/package/react-native-svg-charts
+        const randomColor = () => ("#" + ((Math.random() * 0xffffff) << 0).toString(16) + "000000").slice(0, 7);
 
-      // calculate the total amount spent on each type of transaction
-      const data:PieChartData[] = TransactionType.getTypes().map(type => {
-        const totalAmt:number = currMonthTransactions.filter(transaction => transaction.getType() == type)
-          .map(transaction => transaction.getAmount())
-          .reduce((sum, next) => sum + next, 0);
-        return {
-          name: type,
-          population: totalAmt,
-          color: randomColor(),
-        }
-      });
+        // calculate the total amount spent on each type of transaction
+        const data: PieChartData[] = TransactionType.getTypes().map((type) => {
+            const totalAmt: number = currMonthTransactions
+                .filter((transaction) => transaction.getType() == type)
+                .map((transaction) => transaction.getAmount())
+                .reduce((sum, next) => sum + next, 0);
+            return {
+                name: type,
+                population: totalAmt,
+                color: randomColor(),
+            };
+        });
 
-      setPieChartData(data);
-    }
+        setPieChartData(data);
+    };
 
     const chartConfig = {
         backgroundGradientFrom: "#1E2923",
@@ -126,20 +126,24 @@ export default function MonthlySummaryPage() {
                 <Calendar date={date} transactionsMap={monthlyTransactionsMap} setDate={setDate} />
             </View>
 
-            <DropdownTrayHeader title="View Spending Breakdown By Category" isOpen={isPieChartVisible} setIsOpen={setIsPieChartVisible} />
-            { isPieChartVisible &&
-            <View>
-                <PieChart
-                    data={pieChartData}
-                    width={DIMENSIONS.get("screen").width}
-                    height={DIMENSIONS.get("screen").height * 0.3}
-                    chartConfig={chartConfig}
-                    accessor={"population"}
-                    backgroundColor={"transparent"}
-                    paddingLeft={"15"}
-                />
-            </View>
-            }
+            <DropdownTrayHeader
+                title="View Spending Breakdown By Category"
+                isOpen={isPieChartVisible}
+                setIsOpen={setIsPieChartVisible}
+            />
+            {isPieChartVisible && (
+                <View>
+                    <PieChart
+                        data={pieChartData}
+                        width={DIMENSIONS.get("screen").width}
+                        height={DIMENSIONS.get("screen").height * 0.3}
+                        chartConfig={chartConfig}
+                        accessor={"population"}
+                        backgroundColor={"transparent"}
+                        paddingLeft={"15"}
+                    />
+                </View>
+            )}
         </View>
     );
 }
