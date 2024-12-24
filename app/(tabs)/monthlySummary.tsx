@@ -25,8 +25,10 @@ export default function MonthlySummaryPage() {
         useCallback(() => {
             // methods to execute when tab is focused
             loadData();
+            loadPieChart();
             return () => {
                 // methods to execute when tab is blurred
+                setIsPieChartVisible(false);
             };
         }, [])
     );
