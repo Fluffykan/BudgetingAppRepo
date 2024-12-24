@@ -1,5 +1,5 @@
 export class Transaction {
-    private readonly type: TransactionType;
+    private readonly type: string;
     private readonly amount: number;
     private readonly date: Date;
     private readonly description: string;
@@ -10,7 +10,7 @@ export class Transaction {
      * @throws {InvalidTransactionTypeException} if the type is not one of the predefined transaction types
      */
     constructor(type: string, amount: number, date: Date, description?: string, id?: string) {
-        this.type = Transaction.parseType(type);
+        this.type = type;
         this.amount = amount;
         this.date = date;
         if (description) {
@@ -42,7 +42,7 @@ export class Transaction {
         return new Transaction(type, Number.parseFloat(amount), new Date(date), description, creationDate);
     }
 
-    public getType(): TransactionType {
+    public getType(): string {
         return this.type;
     }
 
@@ -65,22 +65,6 @@ export class Transaction {
     static parseCsvSaveFile(csv: string): Transaction[] {
         const data: string[] = csv.split("\n");
         return this.parseTransactions(data);
-    }
-
-    /**
-     * @throws {InvalidTransactionTypeException} if the type is not one of the predefined transaction types
-     */
-    public static parseType(type: string): TransactionType {
-        switch (type.toLowerCase()) {
-            case "food":
-                return TransactionType.FOOD;
-            case "transport":
-                return TransactionType.TRANSPORT;
-            case "others":
-                return TransactionType.OTHERS;
-            default:
-                throw new Error("Invalid transaction type");
-        }
     }
 
     /**
@@ -108,10 +92,4 @@ export class Transaction {
     public toString(): string {
         return this.type + "," + this.amount.toFixed(2) + "," + this.date + "," + this.description + "," + this.id;
     }
-}
-
-export enum TransactionType {
-    FOOD = "Food",
-    TRANSPORT = "Transport",
-    OTHERS = "Others",
 }

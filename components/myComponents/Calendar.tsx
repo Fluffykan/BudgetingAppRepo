@@ -65,7 +65,7 @@ export default function Calendar({ date, transactionsMap, setDate }: CalendarPro
         arrAmount.push(0);
     }
 
-    // calculate the total transaction value on each day
+    // calculate the total transaction value on each day of the month
     transactionsMap.get(DateMethod.format_MMyyyy(date))?.forEach((transaction) => {
         // add the amount of the transaction to the variable keeping track of transactions
         // on that day

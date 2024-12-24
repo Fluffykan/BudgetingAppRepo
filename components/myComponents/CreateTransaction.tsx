@@ -2,9 +2,10 @@ import { View, Text, TextInput, Button, Alert, TouchableOpacity, StyleSheet, Mod
 import { useRef, useState } from "react";
 import DropdownSelector from "@/components/myComponents/DropdownSelector";
 import DatePicker from "@/components/myComponents/DatePicker";
-import { Transaction, TransactionType } from "@/classes/Transaction";
+import { Transaction } from "@/classes/Transaction";
 import style from "@/styling/style";
 import { FontAwesome } from "@expo/vector-icons";
+import { TransactionType } from "@/classes/TransactionType";
 
 type CreateTransactionButtonProps = {
     transactions: Transaction[];
@@ -146,7 +147,7 @@ export function CreateTransactionPage({ transactions, setTransactions, setVisibl
                     <Text>Transaction Type</Text>
                     <DropdownSelector
                         title={transactionType.toString()}
-                        options={Object.keys(TransactionType).filter((key) => isNaN(Number(key)))}
+                        options={TransactionType.getTypes()}
                         store={setType}
                     />
                     <Text>Amount</Text>
