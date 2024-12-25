@@ -7,7 +7,7 @@ const BG_COLOR_DISABLED = "grey";
 const BG_COLOR_POPUP = "#b5b5b5";
 
 // calendar grid props
-const CALENDAR_GRID_WIDTH = '14.28%'; // ~ 100 / 7
+const CALENDAR_GRID_WIDTH = "14.28%"; // ~ 100 / 7
 const CALENDAR_GRID_PADDING = 2;
 
 const style = StyleSheet.create({
@@ -41,7 +41,7 @@ const style = StyleSheet.create({
         flex: 1,
     },
     rowContainer: {
-        flexDirection: 'row'
+        flexDirection: "row",
     },
     flexRowContainer: {
         flexDirection: "row",
@@ -52,6 +52,9 @@ const style = StyleSheet.create({
     },
     centeredText: {
         textAlign: "center",
+    },
+    textInput: {
+        flex: 1,
     },
     transactionDisplayComponent: {
         borderWidth: 1,
@@ -88,7 +91,7 @@ const style = StyleSheet.create({
         backgroundColor: BG_COLOR,
         width: CALENDAR_GRID_WIDTH,
         padding: CALENDAR_GRID_PADDING,
-        flex: 1
+        flex: 1,
     },
     calendarGridAmountContainer: {
         justifyContent: "center",

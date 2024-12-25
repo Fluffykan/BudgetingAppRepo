@@ -4,6 +4,7 @@ import { StyleSheet, Text, TouchableOpacity } from "react-native";
 type DropDownTrayHeaderProps = {
     title: string;
     isOpen: boolean;
+    borderWidth?:number;
     setIsOpen: (bool: boolean) => void;
 };
 
@@ -14,7 +15,19 @@ type DropDownTrayHeaderProps = {
  * @param setIsOpen a function to set the value of isOpen
  * @returns a TouchableOpacity that toggles the value of isOpen
  */
-export default function DropdownTrayHeader({ title, isOpen, setIsOpen }: DropDownTrayHeaderProps) {
+export default function DropdownTrayHeader({ title, isOpen, borderWidth, setIsOpen }: DropDownTrayHeaderProps) {
+    const style = StyleSheet.create({
+        buttonContainer: {
+            height: "5%",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+            borderWidth: borderWidth ?? 0,
+        },
+    });
+    
+    
     if (isOpen) {
         return (
             <TouchableOpacity onPress={() => setIsOpen(false)} style={style.buttonContainer}>
@@ -32,13 +45,3 @@ export default function DropdownTrayHeader({ title, isOpen, setIsOpen }: DropDow
     }
 }
 
-const style = StyleSheet.create({
-    buttonContainer: {
-        height: "5%",
-        width: "100%",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "row",
-        borderWidth: 1,
-    },
-});

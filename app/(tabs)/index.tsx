@@ -6,16 +6,16 @@ import { Transaction } from "@/classes/Transaction";
 import { useFocusEffect } from "expo-router";
 import TransactionDisplay from "@/components/myComponents/TransactionDisplay";
 import CreateTransactionButton from "@/components/myComponents/CreateTransaction";
+import { TransactionType } from "@/classes/TransactionType";
+import { SAVE_FILE_PATH, TRANSACTION_TYPES_FILE_PATH } from "@/constants/SaveFileAddress";
 
 export default function HomeScreen() {
-    const path = FileSystem.documentDirectory + "/data.txt";
-
     const [transactions, setTransactions] = useState<Transaction[]>([]);
 
     useFocusEffect(
         useCallback(() => {
             // methods to execute when tab is focused
-            enusreDataFileExists();
+            loadTransactionTypes();
             readSaveFile();
 
             return () => {
@@ -24,18 +24,14 @@ export default function HomeScreen() {
         }, [])
     );
 
-    useEffect(() => {
-        handleSave();
-    }, [transactions]);
-
-    const enusreDataFileExists = async () => {
-        const path = FileSystem.documentDirectory + "/data.txt";
-        // check for data file
-        const dirExists = await FileSystem.getInfoAsync(path);
-
-        // create file if it does not exist
-        if (!dirExists) {
-            await FileSystem.writeAsStringAsync(path, "testing");
+    const loadTransactionTypes = async () => {
+        if (!(await FileSystem.getInfoAsync(TRANSACTION_TYPES_FILE_PATH))) {
+            // no prior saved types, i.e. probably first launch of the app
+            // save the default types into the file
+            await FileSystem.writeAsStringAsync(TRANSACTION_TYPES_FILE_PATH, TransactionType.getTypesCsv());
+        } else {
+            const typesCsv: string = await FileSystem.readAsStringAsync(TRANSACTION_TYPES_FILE_PATH);
+            TransactionType.loadTypesFromCsv(typesCsv);
         }
     };
 
@@ -43,26 +39,29 @@ export default function HomeScreen() {
      * Reads the save file, parses the data into transactions, and loads them into the useState
      */
     const readSaveFile = async () => {
-        const content = await FileSystem.readAsStringAsync(path);
+        const content = await FileSystem.readAsStringAsync(SAVE_FILE_PATH);
         setTransactions(Transaction.parseCsvSaveFile(content));
     };
 
+    /////////////////////
+    // FOR TESTING ONLY//
+    /////////////////////
+
     async function clearSaveFile() {
-        await FileSystem.writeAsStringAsync(path, "");
+        await FileSystem.writeAsStringAsync(SAVE_FILE_PATH, "");
         readSaveFile();
     }
-    /**
-     * Updates the save file upon changes to the transactions.
-     */
-    async function handleSave() {
-        // TODO: find a way to split the save file by year, i.e. create 1 file for each year
-        // to maybe reduce the length of substrings to be joined
-        await FileSystem.writeAsStringAsync(path, transactions.map((transaction) => transaction.toString()).join("\n"));
+
+    async function clearTransactionTypes() {
+        TransactionType.resetToDefault();
     }
 
-    function test() {
-        const date = new Date();
-        console.log(date.getMonth().toString() + date.getFullYear());
+    async function test() {
+        console.log("start");
+        console.log(await FileSystem.readAsStringAsync(SAVE_FILE_PATH));
+        console.log("break");
+        console.log(await FileSystem.readAsStringAsync(TRANSACTION_TYPES_FILE_PATH));
+        console.log("end");
     }
 
     return (
@@ -70,6 +69,7 @@ export default function HomeScreen() {
             <Text>HomeScreen</Text>
             <Button title="read save" onPress={() => readSaveFile()} />
             <Button title="clear save" onPress={() => clearSaveFile()} />
+            <Button title="clear types" onPress={clearTransactionTypes} />
             <Button title="try" onPress={() => test()} />
             <TransactionDisplay transactions={transactions} setTransactions={setTransactions} />
 

@@ -6,10 +6,11 @@ type IconButtonProps = {
     size?: number;
     color?: string;
     title?: string;
+    flex?: number;
     onPress: () => void;
 };
 
-export default function IconButton({ name, size, color, title, onPress }: IconButtonProps) {
+export default function IconButton({ name, size, color, title, flex, onPress }: IconButtonProps) {
     const iconSize = size ? size : 30;
 
     const IconButtonStyle = StyleSheet.create({
@@ -20,7 +21,7 @@ export default function IconButton({ name, size, color, title, onPress }: IconBu
     });
 
     return (
-        <TouchableOpacity onPress={onPress} style={{ flex: 1 }}>
+        <TouchableOpacity onPress={onPress} style={{ flex: flex ?? 1 }}>
             {/*if the name provided is invalid, it will be converted into a '?', so any errorneous inputs can be ignored*/}
             {/*@ts-ignore*/}
             <FontAwesome name={name} color={color} size={iconSize} style={{ textAlign: "center" }} />

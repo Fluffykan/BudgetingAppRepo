@@ -6,6 +6,10 @@ import { Transaction } from "@/classes/Transaction";
 import style from "@/styling/style";
 import { FontAwesome } from "@expo/vector-icons";
 import { TransactionType } from "@/classes/TransactionType";
+import DropdownTrayHeader from "./DropdownTrayHeader";
+import CreateTransactionType from "./CreateTransactionType";
+import * as FileSystem from "expo-file-system";
+import { SAVE_FILE_PATH } from "@/constants/SaveFileAddress";
 
 type CreateTransactionButtonProps = {
     transactions: Transaction[];
@@ -96,7 +100,8 @@ export function CreateTransactionPage({ transactions, setTransactions, setVisibl
     /**
      * Updates the save file with the new transaction
      */
-    function appendNewTransaction() {
+    async function appendNewTransaction() {
+        console.log("saving");
         if (transactionType == "Select Type" || amount == 0) {
             showAlertError(transactionType == "Select Type", amount == 0);
             return;
@@ -108,6 +113,14 @@ export function CreateTransactionPage({ transactions, setTransactions, setVisibl
             description
         );
         setTransactions([...transactions, newTransaction]);
+
+        // update the save file
+        const oldSaveFile = await FileSystem.readAsStringAsync(SAVE_FILE_PATH);
+
+        const newSaveFile = oldSaveFile + "\n" + newTransaction.toString();
+
+        await FileSystem.writeAsStringAsync(SAVE_FILE_PATH, newSaveFile);
+
         setVisible(false);
     }
 
@@ -139,10 +152,13 @@ export function CreateTransactionPage({ transactions, setTransactions, setVisibl
     // @ts-ignore
     const handleClick = () => inputRef.current.focus();
 
+    // Add new transaction type component
+    const [isCreateNewTypeWindowOpen, setisCreateNewTypeWindowOpen] = useState(false);
+
     return (
         <View style={style.modalContainer}>
             <View style={style.modalContentContainer}>
-                <View>
+                <View style={style.flexContainer}>
                     <Text>Transaction Details</Text>
                     <Text>Transaction Type</Text>
                     <DropdownSelector
@@ -150,6 +166,13 @@ export function CreateTransactionPage({ transactions, setTransactions, setVisibl
                         options={TransactionType.getTypes()}
                         store={setType}
                     />
+                    <DropdownTrayHeader
+                        title="Add New Transaction Type"
+                        isOpen={isCreateNewTypeWindowOpen}
+                        setIsOpen={setisCreateNewTypeWindowOpen}
+                    />
+                    {isCreateNewTypeWindowOpen && <CreateTransactionType setIsVisible={setisCreateNewTypeWindowOpen} />}
+
                     <Text>Amount</Text>
                     <TouchableOpacity onPress={handleClick}>
                         <Text>{formatAmount()}</Text>
@@ -164,15 +187,25 @@ export function CreateTransactionPage({ transactions, setTransactions, setVisibl
                             inputMode="decimal"
                             caretHidden={true}
                             onChangeText={handleOnChangeTextAmount}
+                            style={style.textInput}
                         />
                     </View>
 
                     <Text>Date</Text>
                     <DatePicker date={date} setDate={setDate} />
                     <Text>Description</Text>
-                    <TextInput placeholder="(Max 50 chars)" maxLength={50} onChangeText={setDescription} />
+                    <View style={style.rowContainer}>
+                        <TextInput
+                            placeholder="(Max 50 chars)"
+                            maxLength={50}
+                            onChangeText={setDescription}
+                            style={style.textInput}
+                        />
+                    </View>
+                        
+                    
                 </View>
-                <View style={style.flexRowContainer}>
+                <View style={style.rowContainer}>
                     <View style={{ width: "50%" }}>
                         <Button title="Close" onPress={() => setVisible(false)} />
                     </View>

@@ -25,7 +25,6 @@ export default function MonthlySummaryPage() {
         useCallback(() => {
             // methods to execute when tab is focused
             loadData();
-            loadPieChart();
             return () => {
                 // methods to execute when tab is blurred
                 setIsPieChartVisible(false);
@@ -84,7 +83,7 @@ export default function MonthlySummaryPage() {
     const [isPieChartVisible, setIsPieChartVisible] = useState(false);
 
     // update the pie chart whenever the date (which determines which month the calendar is displaying)
-    // is changed
+    // is changed and whenever the dropdownTray is toggled.
     useEffect(() => {
         loadPieChart();
     }, [date]);
@@ -112,6 +111,11 @@ export default function MonthlySummaryPage() {
         setPieChartData(data);
     };
 
+    const togglePieChartContainer = (newIsOpenValue:boolean) => {
+        loadPieChart();
+        setIsPieChartVisible(newIsOpenValue);
+    }
+
     const chartConfig = {
         backgroundGradientFrom: "#1E2923",
         backgroundGradientFromOpacity: 0,
@@ -131,7 +135,7 @@ export default function MonthlySummaryPage() {
             <DropdownTrayHeader
                 title="View Spending Breakdown By Category"
                 isOpen={isPieChartVisible}
-                setIsOpen={setIsPieChartVisible}
+                setIsOpen={togglePieChartContainer}
             />
             {isPieChartVisible && (
                 <View>
