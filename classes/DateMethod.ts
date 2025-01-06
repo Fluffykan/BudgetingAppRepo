@@ -87,7 +87,7 @@ export abstract class DateMethod {
         let year: number = date.getFullYear();
         for (let i = 0; i < 5; i++) {
             if (month < 0) {
-                month += 11;
+                month += 12;
                 year--;
             }
             result.push(this.getMonthZeroBased(month).substring(0, 3) + " " + year);
@@ -111,7 +111,7 @@ export abstract class DateMethod {
         let year: number = date.getFullYear();
         for (let i = 0; i < 5; i++) {
             if (month < 0) {
-                month += 11;
+                month += 12;
                 year--;
             }
             result.push((month + 1) + '' + year);

@@ -89,6 +89,10 @@ export default function CreateTransactionPage() {
     const [isCreateNewTypeWindowOpen, setisCreateNewTypeWindowOpen] = useState(false);
 
     const handleSave = async () => {
+        if (transactionType == 'Select Type' || amount == 0) {
+            showAlertError(transactionType == 'Select Type', amount == 0);
+            return;
+        }
         await appendNewTransaction();
         router.back();
     };
