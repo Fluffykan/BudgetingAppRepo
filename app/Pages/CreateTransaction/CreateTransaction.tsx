@@ -107,11 +107,11 @@ export default function CreateTransactionPage() {
                         options={TransactionType.getTypes()}
                         store={setType}
                     />
-                    <DropdownTrayHeader
-                        title="Add New Transaction Type"
-                        isOpen={isCreateNewTypeWindowOpen}
-                        setIsOpen={setisCreateNewTypeWindowOpen}
-                    />
+                    
+                    <TouchableOpacity onPress={() => setisCreateNewTypeWindowOpen(true)}>
+                        <Text style={style.centeredText}>Manage Transaction Types</Text>
+                    </TouchableOpacity>
+
                     <Modal
                         visible={isCreateNewTypeWindowOpen}
                         transparent={true}

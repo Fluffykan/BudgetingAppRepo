@@ -43,6 +43,10 @@ const style = StyleSheet.create({
     rowContainer: {
         flexDirection: "row",
     },
+    rowContainerSpaceBtwn: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
     flexRowContainer: {
         flexDirection: "row",
         flex: 1,

@@ -28,9 +28,9 @@ export default function EditTransactionTypes({ setIsVisible }: CreateTransaction
             <Text>Existing Types</Text>
                 {TransactionType.getTypes().map(type => {
                     return (
-                        <View style={style.rowContainer}>
+                        <View style={style.rowContainerSpaceBtwn}>
                             <Text>{type}</Text>
-                            <IconButton name="times" onPress={() => handleRemoveType(type)} />
+                            <IconButton name="times" color='red' width={'10%'} flex={0} onPress={() => handleRemoveType(type)} />
                         </View>
                     )
                 })}
