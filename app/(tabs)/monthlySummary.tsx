@@ -126,6 +126,7 @@ export default function MonthlySummaryPage() {
         barPercentage: 0.5,
         useShadowColorFromDataset: false, // optional
     };
+    
     return (
         <View style={style.pageContainer}>
             <View style={style.flexContainer}>

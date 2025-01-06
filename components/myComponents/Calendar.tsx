@@ -109,7 +109,7 @@ export default function Calendar({ date, transactionsMap, setDate }: CalendarPro
             <Modal visible={isVisible} style={{ backgroundColor: "grey" }} animationType="slide" transparent={true}>
                 <TouchableOpacity onPress={() => setVisible(false)} style={{ flex: 1 }}></TouchableOpacity>
                 <View style={style.calendarPopup}>
-                    <PopupDateNavBar dateInMonth={date} setDate={setSelectedDate} date={selectedDate} />
+                    <PopupDateNavBar dateInMonth={date} setDateInMonth={setDate} setNumberDate={setSelectedDate} numberDate={selectedDate} />
                     <TransactionDisplay
                         styling="popup"
                         transactions={transactionsOnDate}
@@ -122,28 +122,53 @@ export default function Calendar({ date, transactionsMap, setDate }: CalendarPro
 }
 
 type PopupDateNavBarProps = {
-    date: number;
-    setDate: (newDate: number) => void;
+    numberDate: number; // one based
+    setNumberDate: (newDate: number) => void;
     dateInMonth: Date;
+    setDateInMonth: (newDate: Date) => void;
 };
 
-function PopupDateNavBar({ date, setDate, dateInMonth }: PopupDateNavBarProps) {
+function PopupDateNavBar({ numberDate, setNumberDate, dateInMonth, setDateInMonth }: PopupDateNavBarProps) {
     function handleNextDay() {
-        if (date < DateMethod.getDaysInMonth(dateInMonth)) {
-            setDate(date + 1);
+        if (numberDate < DateMethod.getDaysInMonth(dateInMonth)) {
+            setNumberDate(numberDate + 1);
+            return;
         }
+    
+        if (dateInMonth.getMonth() + 1 > 11) {
+            // next day crosses into the next year
+            setDateInMonth(new Date(dateInMonth.getFullYear() + 1, 0, 1));
+        } else {
+            setDateInMonth(new Date(dateInMonth.getFullYear(), dateInMonth.getMonth() + 1, 1));
+        }
+
+        setNumberDate(1);
     }
 
     function handlePrevDay() {
-        if (date > 1) {
-            setDate(date - 1);
+        if (numberDate > 1) {
+            setNumberDate(numberDate - 1);
+            return;
         }
+
+        if (dateInMonth.getMonth() - 1 < 0) {
+            // prev day crosses into the prev year, so the prev month is december
+            setDateInMonth(new Date(dateInMonth.getFullYear() - 1, 11, 1));
+            // december has 31 days
+            setNumberDate(31)
+        } else {
+            const dayInPrevMonth:Date = new Date(dateInMonth.getFullYear(), dateInMonth.getMonth() - 1, 1);
+            const numDaysInPrevMonth:number = DateMethod.getDaysInMonth(dayInPrevMonth);
+            setDateInMonth(dayInPrevMonth);
+            setNumberDate(numDaysInPrevMonth);
+        }
+
     }
 
     return (
         <View style={style.calendarMonthNavBar}>
             <IconButton name="angle-left" onPress={handlePrevDay} />
-            <Text>{date + " " + DateMethod.format_Myyyy(dateInMonth)}</Text>
+            <Text>{numberDate + " " + DateMethod.format_Myyyy(dateInMonth)}</Text>
             <IconButton name="angle-right" onPress={handleNextDay} />
         </View>
     );
