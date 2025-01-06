@@ -7,7 +7,7 @@ import style from "@/styling/style";
 import { FontAwesome } from "@expo/vector-icons";
 import { TransactionType } from "@/classes/TransactionType";
 import DropdownTrayHeader from "../../../components/myComponents/DropdownTrayHeader";
-import CreateTransactionType from "../../../components/myComponents/CreateTransactionType";
+import CreateTransactionType from "./EditTransactionTypes";
 import * as FileSystem from "expo-file-system";
 import { SAVE_FILE_PATH } from "@/constants/SaveFileAddress";
 import { Link, router } from "expo-router";
@@ -112,7 +112,17 @@ export default function CreateTransactionPage() {
                         isOpen={isCreateNewTypeWindowOpen}
                         setIsOpen={setisCreateNewTypeWindowOpen}
                     />
-                    {isCreateNewTypeWindowOpen && <CreateTransactionType setIsVisible={setisCreateNewTypeWindowOpen} />}
+                    <Modal
+                        visible={isCreateNewTypeWindowOpen}
+                        transparent={true}
+                    >
+                        <TouchableOpacity style={style.flexContainer} onPress={() => setisCreateNewTypeWindowOpen(false)} />
+                        <View style={style.topPaddedPopup}>
+                            <CreateTransactionType setIsVisible={setisCreateNewTypeWindowOpen} />
+
+                        </View>
+
+                    </Modal>
 
                     <Text>Amount</Text>
                     <TouchableOpacity onPress={handleClick}>

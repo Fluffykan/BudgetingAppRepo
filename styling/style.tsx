@@ -123,12 +123,19 @@ const style = StyleSheet.create({
         alignItems: "center",
         paddingVertical: 10,
     },
-    calendarPopup: {
+    popup: {
         flex: 1,
         backgroundColor: BG_COLOR_POPUP,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
     },
+    topPaddedPopup: {
+        flex: 1,
+        backgroundColor: BG_COLOR_POPUP,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        paddingTop: 20
+    }
 });
 
 export default style;

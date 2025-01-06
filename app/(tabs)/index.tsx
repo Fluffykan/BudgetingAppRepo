@@ -5,7 +5,6 @@ import { useCallback, useEffect, useState } from "react";
 import { Transaction } from "@/classes/Transaction";
 import { useFocusEffect } from "expo-router";
 import TransactionDisplay from "@/components/myComponents/TransactionDisplay";
-import CreateTransactionButton from "@/app/Pages/CreateTransaction/CreateTransaction";
 import { TransactionType } from "@/classes/TransactionType";
 import { SAVE_FILE_PATH, TRANSACTION_TYPES_FILE_PATH } from "@/constants/SaveFileAddress";
 

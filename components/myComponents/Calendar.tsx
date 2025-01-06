@@ -97,6 +97,11 @@ export default function Calendar({ date, transactionsMap, setDate }: CalendarPro
     // used to store modal's visibility
     const [isVisible, setVisible] = useState(false);
 
+    const handleCreateTransaction = () => {
+        setVisible(false);
+        router.push('/Pages/CreateTransaction/CreateTransaction');
+    }
+
     return (
         <View style={style.flexContainer}>
             <CalendarMonthNavBar date={date} setDate={setDate} />
@@ -109,9 +114,9 @@ export default function Calendar({ date, transactionsMap, setDate }: CalendarPro
 
             <Modal visible={isVisible} style={{ backgroundColor: "grey" }} animationType="slide" transparent={true}>
                 <TouchableOpacity onPress={() => setVisible(false)} style={{ flex: 1 }}></TouchableOpacity>
-                <View style={style.calendarPopup}>
+                <View style={style.popup}>
                     <PopupDateNavBar dateInMonth={date} setDateInMonth={setDate} setNumberDate={setSelectedDate} numberDate={selectedDate} />
-                    <Button title="new transaction" onPress={() => router.push('/Pages/CreateTransaction/CreateTransaction')} />
+                    <Button title="new transaction" onPress={handleCreateTransaction} />
 
                     <TransactionDisplay
                         styling="popup"
