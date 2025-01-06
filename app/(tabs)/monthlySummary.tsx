@@ -23,6 +23,7 @@ export default function MonthlySummaryPage() {
 
     useFocusEffect(
         useCallback(() => {
+            console.log('focus');
             // methods to execute when tab is focused
             loadData();
             return () => {

@@ -47,6 +47,18 @@ const style = StyleSheet.create({
         flexDirection: "row",
         flex: 1,
     },
+    paddedFlexContainer: {
+        flex: 1,
+        padding: 20
+    },
+    vertPadddedFlexContainer: {
+        flex: 1,
+        paddingVertical: 20
+    },
+    horiPaddedFlexContainer: {
+        flex: 1,
+        paddingHorizontal: 20
+    },
     borderedContainer: {
         borderWidth: 1,
     },

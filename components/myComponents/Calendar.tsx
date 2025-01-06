@@ -1,10 +1,11 @@
 import { DateMethod } from "@/classes/DateMethod";
 import { Transaction } from "@/classes/Transaction";
 import style from "@/styling/style";
-import { Modal, Text, TouchableOpacity, View } from "react-native";
+import { Button, Modal, Text, TouchableOpacity, View } from "react-native";
 import IconButton from "./IconButton";
 import { useEffect, useState } from "react";
 import TransactionDisplay from "./TransactionDisplay";
+import { Link, router } from "expo-router";
 
 type CalendarProps = {
     date: Date; // any date within the month
@@ -110,6 +111,8 @@ export default function Calendar({ date, transactionsMap, setDate }: CalendarPro
                 <TouchableOpacity onPress={() => setVisible(false)} style={{ flex: 1 }}></TouchableOpacity>
                 <View style={style.calendarPopup}>
                     <PopupDateNavBar dateInMonth={date} setDateInMonth={setDate} setNumberDate={setSelectedDate} numberDate={selectedDate} />
+                    <Button title="new transaction" onPress={() => router.push('/Pages/CreateTransaction/CreateTransaction')} />
+
                     <TransactionDisplay
                         styling="popup"
                         transactions={transactionsOnDate}

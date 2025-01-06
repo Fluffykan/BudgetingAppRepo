@@ -6,75 +6,13 @@ import { Transaction } from "@/classes/Transaction";
 import style from "@/styling/style";
 import { FontAwesome } from "@expo/vector-icons";
 import { TransactionType } from "@/classes/TransactionType";
-import DropdownTrayHeader from "./DropdownTrayHeader";
-import CreateTransactionType from "./CreateTransactionType";
+import DropdownTrayHeader from "../../../components/myComponents/DropdownTrayHeader";
+import CreateTransactionType from "../../../components/myComponents/CreateTransactionType";
 import * as FileSystem from "expo-file-system";
 import { SAVE_FILE_PATH } from "@/constants/SaveFileAddress";
+import { Link, router } from "expo-router";
 
-type CreateTransactionButtonProps = {
-    transactions: Transaction[];
-    setTransactions: (newTransactions: Transaction[]) => void;
-};
-
-export default function CreateTransactionButton({ transactions, setTransactions }: CreateTransactionButtonProps) {
-    const [isVisible, setVisible] = useState(false);
-
-    function toggleModal() {
-        setVisible(!isVisible);
-    }
-
-    const unsavedChangesWarning = () =>
-        Alert.alert(
-            "Warning",
-            "There are unsaved changes, exit anyway?",
-            [
-                {
-                    text: "Close",
-                    onPress: () => setVisible(false),
-                },
-            ],
-            {
-                cancelable: true,
-            }
-        );
-
-    return (
-        <TouchableOpacity style={createTransactionButtonStyle.floatingButton} onPress={toggleModal}>
-            <Modal animationType="slide" transparent={true} visible={isVisible} onRequestClose={unsavedChangesWarning}>
-                <CreateTransactionPage
-                    transactions={transactions}
-                    setTransactions={setTransactions}
-                    setVisible={setVisible}
-                />
-            </Modal>
-            <FontAwesome name="plus" style={createTransactionButtonStyle.iconStyle} size={30} />
-        </TouchableOpacity>
-    );
-}
-
-const createTransactionButtonStyle = StyleSheet.create({
-    floatingButton: {
-        height: 50,
-        width: 50,
-        position: "absolute",
-        bottom: 20,
-        right: 20,
-        borderRadius: 25,
-        backgroundColor: "red",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    iconStyle: {
-        textAlign: "center",
-    },
-});
-
-type CreateTransactionPageProps = {
-    transactions: Transaction[];
-    setTransactions: (newTransactions: Transaction[]) => void;
-    setVisible: (visibility: boolean) => void;
-};
-export function CreateTransactionPage({ transactions, setTransactions, setVisible }: CreateTransactionPageProps) {
+export default function CreateTransactionPage() {
     // useStates to store the user's inputs
     const [transactionType, setType] = useState("Select Type");
     const [amount, setAmount] = useState<number>(0);
@@ -112,7 +50,6 @@ export function CreateTransactionPage({ transactions, setTransactions, setVisibl
             date,
             description
         );
-        setTransactions([...transactions, newTransaction]);
 
         // update the save file
         const oldSaveFile = await FileSystem.readAsStringAsync(SAVE_FILE_PATH);
@@ -121,7 +58,6 @@ export function CreateTransactionPage({ transactions, setTransactions, setVisibl
 
         await FileSystem.writeAsStringAsync(SAVE_FILE_PATH, newSaveFile);
 
-        setVisible(false);
     }
 
     // input amount component
@@ -155,9 +91,14 @@ export function CreateTransactionPage({ transactions, setTransactions, setVisibl
     // Add new transaction type component
     const [isCreateNewTypeWindowOpen, setisCreateNewTypeWindowOpen] = useState(false);
 
+    const handleSave = async () => {
+        await appendNewTransaction();
+        router.back();
+    }
+
     return (
-        <View style={style.modalContainer}>
-            <View style={style.modalContentContainer}>
+        <View style={style.paddedFlexContainer}>
+            <View style={style.flexContainer}>
                 <View style={style.flexContainer}>
                     <Text>Transaction Details</Text>
                     <Text>Transaction Type</Text>
@@ -207,10 +148,10 @@ export function CreateTransactionPage({ transactions, setTransactions, setVisibl
                 </View>
                 <View style={style.rowContainer}>
                     <View style={{ width: "50%" }}>
-                        <Button title="Close" onPress={() => setVisible(false)} />
+                        <Button title="Close" onPress={() => router.back()} />
                     </View>
                     <View style={{ width: "50%" }}>
-                        <Button title="Save" onPress={appendNewTransaction} />
+                        <Button title="Save" onPress={handleSave} />
                     </View>
                 </View>
             </View>
