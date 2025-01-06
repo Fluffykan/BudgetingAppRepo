@@ -4,11 +4,7 @@ import { Text, TextInput, View } from "react-native";
 import IconButton from "../../../components/myComponents/IconButton";
 import { TransactionType } from "@/classes/TransactionType";
 
-type CreateTransactionTypeProps = {
-    setIsVisible: (b: boolean) => void;
-};
-
-export default function EditTransactionTypes({ setIsVisible }: CreateTransactionTypeProps) {
+export default function ManageTransactionTypes() {
     const [inputText, setInputText] = useState("");
     const [toggle, setToggle] = useState(false); // used to force the component to re-render
 
@@ -28,7 +24,7 @@ export default function EditTransactionTypes({ setIsVisible }: CreateTransaction
             <Text>Existing Types</Text>
                 {TransactionType.getTypes().map(type => {
                     return (
-                        <View style={style.rowContainerSpaceBtwn}>
+                        <View id={type} style={style.rowContainerSpaceBtwn}>
                             <Text>{type}</Text>
                             <IconButton name="times" color='red' width={'10%'} flex={0} onPress={() => handleRemoveType(type)} />
                         </View>

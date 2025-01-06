@@ -1,7 +1,7 @@
 import { Button, View, Text } from "react-native";
 import style from "@/styling/style";
 import * as FileSystem from "expo-file-system";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Transaction } from "@/classes/Transaction";
 import { useFocusEffect } from "expo-router";
 import TransactionDisplay from "@/components/myComponents/TransactionDisplay";

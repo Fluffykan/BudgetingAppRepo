@@ -1,16 +1,14 @@
-import { View, Text, TextInput, Button, Alert, TouchableOpacity, StyleSheet, Modal } from "react-native";
+import { View, Text, TextInput, Button, Alert, TouchableOpacity, Modal } from "react-native";
 import { useRef, useState } from "react";
 import DropdownSelector from "@/components/myComponents/DropdownSelector";
 import DatePicker from "@/components/myComponents/DatePicker";
 import { Transaction } from "@/classes/Transaction";
 import style from "@/styling/style";
-import { FontAwesome } from "@expo/vector-icons";
 import { TransactionType } from "@/classes/TransactionType";
-import DropdownTrayHeader from "../../../components/myComponents/DropdownTrayHeader";
-import CreateTransactionType from "./EditTransactionTypes";
 import * as FileSystem from "expo-file-system";
 import { SAVE_FILE_PATH } from "@/constants/SaveFileAddress";
-import { Link, router } from "expo-router";
+import { router } from "expo-router";
+import ManageTransactionTypes from "./ManageTransactionTypes";
 
 export default function CreateTransactionPage() {
     // useStates to store the user's inputs
@@ -57,7 +55,6 @@ export default function CreateTransactionPage() {
         const newSaveFile = oldSaveFile + "\n" + newTransaction.toString();
 
         await FileSystem.writeAsStringAsync(SAVE_FILE_PATH, newSaveFile);
-
     }
 
     // input amount component
@@ -94,7 +91,7 @@ export default function CreateTransactionPage() {
     const handleSave = async () => {
         await appendNewTransaction();
         router.back();
-    }
+    };
 
     return (
         <View style={style.paddedFlexContainer}>
@@ -107,21 +104,19 @@ export default function CreateTransactionPage() {
                         options={TransactionType.getTypes()}
                         store={setType}
                     />
-                    
+
                     <TouchableOpacity onPress={() => setisCreateNewTypeWindowOpen(true)}>
                         <Text style={style.centeredText}>Manage Transaction Types</Text>
                     </TouchableOpacity>
 
-                    <Modal
-                        visible={isCreateNewTypeWindowOpen}
-                        transparent={true}
-                    >
-                        <TouchableOpacity style={style.flexContainer} onPress={() => setisCreateNewTypeWindowOpen(false)} />
+                    <Modal visible={isCreateNewTypeWindowOpen} transparent={true}>
+                        <TouchableOpacity
+                            style={style.flexContainer}
+                            onPress={() => setisCreateNewTypeWindowOpen(false)}
+                        />
                         <View style={style.topPaddedPopup}>
-                            <CreateTransactionType setIsVisible={setisCreateNewTypeWindowOpen} />
-
+                            <ManageTransactionTypes />
                         </View>
-
                     </Modal>
 
                     <Text>Amount</Text>
@@ -153,8 +148,6 @@ export default function CreateTransactionPage() {
                             style={style.textInput}
                         />
                     </View>
-                        
-                    
                 </View>
                 <View style={style.rowContainer}>
                     <View style={{ width: "50%" }}>

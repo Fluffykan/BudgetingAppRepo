@@ -5,7 +5,7 @@ import { Button, Modal, Text, TouchableOpacity, View } from "react-native";
 import IconButton from "./IconButton";
 import { useEffect, useState } from "react";
 import TransactionDisplay from "./TransactionDisplay";
-import { Link, router } from "expo-router";
+import { router } from "expo-router";
 
 type CalendarProps = {
     date: Date; // any date within the month
