@@ -2,23 +2,40 @@ import { Transaction } from "@/classes/Transaction";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import style from "@/styling/style";
 import IconButton from "./IconButton";
+import * as FileSystem from "expo-file-system";
+import { SAVE_FILE_PATH } from "@/constants/SaveFileAddress";
 
 type TransactionDisplayProps = {
     transactions: Transaction[];
-    setTransactions: (newTransactions: Transaction[]) => void;
+    masterList: Transaction[];
+    setMasterList: (newTransactions: Transaction[]) => void;
     styling?: "normal" | "popup";
 };
 
-export default function TransactionDisplay({ transactions, setTransactions, styling }: TransactionDisplayProps) {
+export default function TransactionDisplay({
+    transactions,
+    masterList,
+    setMasterList,
+    styling,
+}: TransactionDisplayProps) {
     const chosenStyling = styling
         ? styling == "popup"
             ? style.transactionDisplayComponentPopup
             : style.transactionDisplayComponent
         : style.transactionDisplayComponent;
 
-    function handleDeleteTransaction(target: Transaction) {
+    async function handleDeleteTransaction(target: Transaction) {
         // TODO: implement function
-        setTransactions(transactions.filter((transaction) => transaction != target));
+        // get updated array without the deleted transaction
+        const filteredList: Transaction[] = masterList.filter((transaction) => transaction != target);
+        // convert array to csv and write to save file
+        await FileSystem.writeAsStringAsync(
+            SAVE_FILE_PATH,
+            filteredList.reduce((prev, next) => prev + "\n" + next.toString(), "")
+        );
+        // update list
+        setMasterList(filteredList);
+        console.log("done");
     }
 
     return (

@@ -130,7 +130,13 @@ export default function MonthlySummaryPage() {
     return (
         <View style={style.pageContainer}>
             <View style={style.flexContainer}>
-                <Calendar date={date} transactionsMap={monthlyTransactionsMap} setDate={setDate} />
+                <Calendar
+                    date={date}
+                    transactions={transactions}
+                    transactionsMap={monthlyTransactionsMap}
+                    setDate={setDate}
+                    setTransactions={setTransactions}
+                />
             </View>
 
             <DropdownTrayHeader

@@ -1,4 +1,4 @@
-import { Button, View, Text } from "react-native";
+import { View, Text } from "react-native";
 import style from "@/styling/style";
 import * as FileSystem from "expo-file-system";
 import { useCallback, useState } from "react";
@@ -42,35 +42,10 @@ export default function HomeScreen() {
         setTransactions(Transaction.parseCsvSaveFile(content));
     };
 
-    /////////////////////
-    // FOR TESTING ONLY//
-    /////////////////////
-
-    async function clearSaveFile() {
-        await FileSystem.writeAsStringAsync(SAVE_FILE_PATH, "");
-        readSaveFile();
-    }
-
-    async function clearTransactionTypes() {
-        TransactionType.resetToDefault();
-    }
-
-    async function test() {
-        console.log("start");
-        console.log(await FileSystem.readAsStringAsync(SAVE_FILE_PATH));
-        console.log("break");
-        console.log(await FileSystem.readAsStringAsync(TRANSACTION_TYPES_FILE_PATH));
-        console.log("end");
-    }
-
     return (
         <View style={style.pageContainer}>
             <Text style={style.h1b}>HomeScreen</Text>
-            <Button title="read save" onPress={() => readSaveFile()} />
-            <Button title="clear save" onPress={() => clearSaveFile()} />
-            <Button title="clear types" onPress={clearTransactionTypes} />
-            <Button title="try" onPress={() => test()} />
-            <TransactionDisplay transactions={transactions} setTransactions={setTransactions} />
+            <TransactionDisplay transactions={transactions} masterList={transactions} setMasterList={setTransactions} />
         </View>
     );
 }

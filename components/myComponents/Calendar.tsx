@@ -13,6 +13,8 @@ type CalendarProps = {
     date: Date; // any date within the month
     setDate: (date: Date) => void; // useState setter method to set the date
     transactionsMap: Map<string, Transaction[]>; // the list of transactions in the month
+    transactions: Transaction[]; // array of all transactions
+    setTransactions: (t: Transaction[]) => void;
 };
 
 /**
@@ -23,7 +25,7 @@ type CalendarProps = {
  * @returns a 5x7 grid composed of {@code CalendarGridEnabled} or {@code CalendarGridDisabled}
  * representing a month on the calendar
  */
-export default function Calendar({ date, transactionsMap, setDate }: CalendarProps) {
+export default function Calendar({ date, transactionsMap, transactions, setTransactions, setDate }: CalendarProps) {
     // Initialize the calendar
 
     // calculate which day the first day of the month falls on
@@ -79,14 +81,13 @@ export default function Calendar({ date, transactionsMap, setDate }: CalendarPro
     const [selectedDate, setSelectedDate] = useState(0);
     // declare variable to store the array of transactions on the selected date
     const [transactionsOnDate, setTransactionsOnDate] = useState<Transaction[]>([]);
-
     // useEffect to update the array of transactions whenever user selects a new date
     useEffect(() => {
         const transactionArr: Transaction[] | undefined = transactionsMap
             .get(DateMethod.format_MMyyyy(date))
             ?.filter((transaction) => transaction.getDate().getDate() == selectedDate);
         transactionArr ? setTransactionsOnDate(transactionArr) : setTransactionsOnDate([]);
-    }, [selectedDate]);
+    }, [selectedDate, transactionsMap]);
 
     // function to handle opening the modal when a date is selected
     function handleOpenModal(datePressed: number) {
@@ -139,7 +140,8 @@ export default function Calendar({ date, transactionsMap, setDate }: CalendarPro
                     <TransactionDisplay
                         styling="popup"
                         transactions={transactionsOnDate}
-                        setTransactions={(t: Transaction[]) => {}}
+                        masterList={transactions}
+                        setMasterList={setTransactions}
                     />
                 </View>
             </Modal>
