@@ -9,6 +9,7 @@ import * as FileSystem from "expo-file-system";
 import { SAVE_FILE_PATH } from "@/constants/SaveFileAddress";
 import { router } from "expo-router";
 import ManageTransactionTypes from "./ManageTransactionTypes";
+import IconButton from "@/components/myComponents/IconButton";
 
 export default function CreateTransactionPage() {
     // useStates to store the user's inputs
@@ -101,12 +102,13 @@ export default function CreateTransactionPage() {
         <View style={style.paddedFlexContainer}>
             <View style={style.flexContainer}>
                 <View style={style.flexContainer}>
-                    <Text>Transaction Details</Text>
-                    <Text>Transaction Type</Text>
+                    <Text style={style.h2}>Transaction Details</Text>
+                    <Text style={style.h3}>Transaction Type</Text>
                     <DropdownSelector
                         title={transactionType.toString()}
                         options={TransactionType.getTypes()}
                         store={setType}
+                        textStyle={style.h4}
                     />
 
                     <TouchableOpacity onPress={() => setisCreateNewTypeWindowOpen(true)}>
@@ -123,9 +125,9 @@ export default function CreateTransactionPage() {
                         </View>
                     </Modal>
 
-                    <Text>Amount</Text>
+                    <Text style={style.h3}>Amount</Text>
                     <TouchableOpacity onPress={handleClick}>
-                        <Text>{formatAmount()}</Text>
+                        <Text style={style.t3}>{formatAmount()}</Text>
                     </TouchableOpacity>
 
                     <View style={style.hiddenElement}>
@@ -141,25 +143,21 @@ export default function CreateTransactionPage() {
                         />
                     </View>
 
-                    <Text>Date</Text>
-                    <DatePicker date={date} setDate={setDate} />
-                    <Text>Description</Text>
+                    <Text style={style.h3}>Date</Text>
+                    <DatePicker style={style.t3} date={date} setDate={setDate} />
+                    <Text style={style.h3}>Description</Text>
                     <View style={style.rowContainer}>
                         <TextInput
                             placeholder="(Max 50 chars)"
                             maxLength={50}
                             onChangeText={setDescription}
-                            style={style.textInput}
+                            style={style.t4}
                         />
                     </View>
                 </View>
                 <View style={style.rowContainer}>
-                    <View style={{ width: "50%" }}>
-                        <Button title="Close" onPress={() => router.back()} />
-                    </View>
-                    <View style={{ width: "50%" }}>
-                        <Button title="Save" onPress={handleSave} />
-                    </View>
+                    <IconButton name="window-close" color='red' title="Close" onPress={() => router.back()} />
+                    <IconButton name='floppy-o' color="green" title="Save" onPress={handleSave} />
                 </View>
             </View>
         </View>

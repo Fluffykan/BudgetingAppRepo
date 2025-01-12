@@ -65,7 +65,7 @@ export default function HomeScreen() {
 
     return (
         <View style={style.pageContainer}>
-            <Text>HomeScreen</Text>
+            <Text style={style.h1b}>HomeScreen</Text>
             <Button title="read save" onPress={() => readSaveFile()} />
             <Button title="clear save" onPress={() => clearSaveFile()} />
             <Button title="clear types" onPress={clearTransactionTypes} />

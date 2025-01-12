@@ -69,6 +69,54 @@ const style = StyleSheet.create({
     centeredText: {
         textAlign: "center",
     },
+    h1: {
+        fontSize: 40,
+        paddingVertical: 20,
+    },
+    h2: {
+        fontSize: 30,
+        paddingVertical: 15,
+    },
+    h3: {
+        fontSize: 20,
+        paddingVertical: 10,
+    },
+    h4: {
+        fontSize: 15,
+        paddingVertical: 5,
+    },
+    h1b: {
+        fontSize: 40,
+        fontWeight: 'bold',
+        color: 'red'
+    },
+    h2b: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        color: 'red',
+    },
+    h3b: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: 'red',
+    },
+    h4b: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        color: 'red',
+    },
+    t1: {
+        fontSize: 40,
+    },
+    t2: {
+        fontSize: 30,
+    },
+    t3: {
+        fontSize: 20,
+    },
+    t4: {
+        fontSize: 15,
+    },
     textInput: {
         flex: 1,
     },

@@ -1,4 +1,4 @@
-import { TouchableOpacity, Text, View } from "react-native";
+import { TouchableOpacity, Text, View, StyleProp, TextStyle } from "react-native";
 import { useState } from "react";
 import style from "@/styling/style";
 
@@ -6,9 +6,10 @@ type DropdownSelectorProps = {
     options: string[];
     title: string;
     store: (type: string) => void;
+    textStyle?:StyleProp<TextStyle>;
 };
 
-export default function DropdownSelector({ options, title, store }: DropdownSelectorProps) {
+export default function DropdownSelector({ options, title, store, textStyle }: DropdownSelectorProps) {
     const [isOpen, toggleOpen] = useState(false);
 
     function onSelect(option: string) {
@@ -19,12 +20,12 @@ export default function DropdownSelector({ options, title, store }: DropdownSele
     return (
         <View style={style.dropdownSelector}>
             <TouchableOpacity onPress={() => toggleOpen(!isOpen)}>
-                <Text>{title}</Text>
+                <Text style={textStyle}>{title}</Text>
             </TouchableOpacity>
             {isOpen &&
                 options.map((option) => (
                     <TouchableOpacity onPress={() => onSelect(option)} key={option}>
-                        <Text>{option}</Text>
+                        <Text style={textStyle}>{option}</Text>
                     </TouchableOpacity>
                 ))}
         </View>

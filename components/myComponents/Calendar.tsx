@@ -116,7 +116,7 @@ export default function Calendar({ date, transactionsMap, setDate }: CalendarPro
                 <TouchableOpacity onPress={() => setVisible(false)} style={{ flex: 1 }}></TouchableOpacity>
                 <View style={style.popup}>
                     <PopupDateNavBar dateInMonth={date} setDateInMonth={setDate} setNumberDate={setSelectedDate} numberDate={selectedDate} />
-                    <Button title="new transaction" onPress={handleCreateTransaction} />
+                    <IconButton name="plus" flexDir="row" bgColor="#42f57e" flex={0} title="New Transaction" onPress={handleCreateTransaction} />
 
                     <TransactionDisplay
                         styling="popup"
