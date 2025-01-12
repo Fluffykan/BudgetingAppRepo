@@ -5,7 +5,7 @@ import { StyleProp, Text, TextStyle, TouchableOpacity, View } from "react-native
 type DatePickerProps = {
     date: Date;
     setDate: (date: Date) => void;
-    style?:StyleProp<TextStyle>;
+    style?: StyleProp<TextStyle>;
 };
 
 export default function DatePicker({ date, setDate, style }: DatePickerProps) {

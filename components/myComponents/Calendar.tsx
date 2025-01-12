@@ -1,7 +1,7 @@
 import { DateMethod } from "@/classes/DateMethod";
 import { Transaction } from "@/classes/Transaction";
 import style from "@/styling/style";
-import { Button, Modal, Text, TouchableOpacity, View } from "react-native";
+import { Modal, Text, TouchableOpacity, View } from "react-native";
 import IconButton from "./IconButton";
 import { useEffect, useState } from "react";
 import TransactionDisplay from "./TransactionDisplay";
@@ -99,8 +99,8 @@ export default function Calendar({ date, transactionsMap, setDate }: CalendarPro
 
     const handleCreateTransaction = () => {
         setVisible(false);
-        router.push('/Pages/CreateTransaction/CreateTransaction');
-    }
+        router.push("/Pages/CreateTransaction/CreateTransaction");
+    };
 
     return (
         <View style={style.flexContainer}>
@@ -115,8 +115,20 @@ export default function Calendar({ date, transactionsMap, setDate }: CalendarPro
             <Modal visible={isVisible} style={{ backgroundColor: "grey" }} animationType="slide" transparent={true}>
                 <TouchableOpacity onPress={() => setVisible(false)} style={{ flex: 1 }}></TouchableOpacity>
                 <View style={style.popup}>
-                    <PopupDateNavBar dateInMonth={date} setDateInMonth={setDate} setNumberDate={setSelectedDate} numberDate={selectedDate} />
-                    <IconButton name="plus" flexDir="row" bgColor="#42f57e" flex={0} title="New Transaction" onPress={handleCreateTransaction} />
+                    <PopupDateNavBar
+                        dateInMonth={date}
+                        setDateInMonth={setDate}
+                        setNumberDate={setSelectedDate}
+                        numberDate={selectedDate}
+                    />
+                    <IconButton
+                        name="plus"
+                        flexDir="row"
+                        bgColor="#42f57e"
+                        flex={0}
+                        title="New Transaction"
+                        onPress={handleCreateTransaction}
+                    />
 
                     <TransactionDisplay
                         styling="popup"
@@ -142,7 +154,7 @@ function PopupDateNavBar({ numberDate, setNumberDate, dateInMonth, setDateInMont
             setNumberDate(numberDate + 1);
             return;
         }
-    
+
         if (dateInMonth.getMonth() + 1 > 11) {
             // next day crosses into the next year
             setDateInMonth(new Date(dateInMonth.getFullYear() + 1, 0, 1));
@@ -163,14 +175,13 @@ function PopupDateNavBar({ numberDate, setNumberDate, dateInMonth, setDateInMont
             // prev day crosses into the prev year, so the prev month is december
             setDateInMonth(new Date(dateInMonth.getFullYear() - 1, 11, 1));
             // december has 31 days
-            setNumberDate(31)
+            setNumberDate(31);
         } else {
-            const dayInPrevMonth:Date = new Date(dateInMonth.getFullYear(), dateInMonth.getMonth() - 1, 1);
-            const numDaysInPrevMonth:number = DateMethod.getDaysInMonth(dayInPrevMonth);
+            const dayInPrevMonth: Date = new Date(dateInMonth.getFullYear(), dateInMonth.getMonth() - 1, 1);
+            const numDaysInPrevMonth: number = DateMethod.getDaysInMonth(dayInPrevMonth);
             setDateInMonth(dayInPrevMonth);
             setNumberDate(numDaysInPrevMonth);
         }
-
     }
 
     return (

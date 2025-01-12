@@ -6,7 +6,7 @@ type DropdownSelectorProps = {
     options: string[];
     title: string;
     store: (type: string) => void;
-    textStyle?:StyleProp<TextStyle>;
+    textStyle?: StyleProp<TextStyle>;
 };
 
 export default function DropdownSelector({ options, title, store, textStyle }: DropdownSelectorProps) {

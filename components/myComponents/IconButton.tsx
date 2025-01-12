@@ -1,5 +1,5 @@
 import { FontAwesome } from "@expo/vector-icons";
-import { TouchableOpacity, Text, StyleSheet, DimensionValue, View } from "react-native";
+import { TouchableOpacity, Text, StyleSheet, DimensionValue } from "react-native";
 
 type IconButtonProps = {
     name: string;
@@ -52,7 +52,7 @@ export default function IconButton({
         },
     });
 
-    if (flexDir == 'column' || flexDir == undefined) {
+    if (flexDir == "column" || flexDir == undefined) {
         return (
             <TouchableOpacity
                 onPress={onPress}
@@ -61,14 +61,14 @@ export default function IconButton({
                     height: height,
                     width: width,
                     borderWidth: borderWidth,
-                    backgroundColor: bgColor
+                    backgroundColor: bgColor,
                 }}
             >
                 {/*if the name provided is invalid, it will be converted into a '?', so any errorneous inputs can be ignored*/}
                 {/*@ts-ignore*/}
                 <FontAwesome name={name} color={color} size={iconSize} style={{ textAlign: "center" }} />
                 {title && <Text style={IconButtonStyle.centerdText}>{title}</Text>}
-                </TouchableOpacity>
+            </TouchableOpacity>
         );
     }
 
@@ -80,18 +80,17 @@ export default function IconButton({
                 height: height,
                 width: width,
                 borderWidth: borderWidth,
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
                 backgroundColor: bgColor,
-                padding: 1
+                padding: 1,
             }}
         >
             {title && <Text style={IconButtonStyle.centerdText}>{title} </Text>}
             {/*if the name provided is invalid, it will be converted into a '?', so any errorneous inputs can be ignored*/}
             {/*@ts-ignore*/}
             <FontAwesome name={name} color={color} size={iconSize} style={{ textAlign: "center" }} />
-        
-            </TouchableOpacity>
+        </TouchableOpacity>
     );
 }

@@ -13,29 +13,34 @@ export default function ManageTransactionTypes() {
         setToggle(!toggle);
     };
 
-    const handleRemoveType = (type:string) => {
+    const handleRemoveType = (type: string) => {
         TransactionType.removeType(type);
         setToggle(!toggle);
-    }
+    };
 
     return (
         <View>
-            <Text style={style.centeredText}>Manage Types</Text>
-            <Text>Existing Types</Text>
-                {TransactionType.getTypes().map(type => {
-                    return (
-                        <View id={type} style={style.rowContainerSpaceBtwn}>
-                            <Text>{type}</Text>
-                            <IconButton name="times" color='red' width={'10%'} flex={0} onPress={() => handleRemoveType(type)} />
-                        </View>
-                    )
-                })}
-            <Text>Add New Type</Text>
+            <Text style={style.h2c}>Manage Types</Text>
+            <Text style={style.h3}>Existing Types</Text>
+            {TransactionType.getTypes().map((type) => {
+                return (
+                    <View id={type} style={style.rowContainerSpaceBtwn}>
+                        <Text style={style.t4}>{type}</Text>
+                        <IconButton
+                            name="times"
+                            color="red"
+                            width={"10%"}
+                            flex={0}
+                            onPress={() => handleRemoveType(type)}
+                        />
+                    </View>
+                );
+            })}
+            <Text style={style.h3}>Add New Type</Text>
             <View style={style.rowContainer}>
                 <TextInput placeholder="New Type" onChangeText={setInputText} style={style.textInput} />
                 <IconButton name="floppy-o" onPress={handleSave} flex={0} />
             </View>
- 
         </View>
     );
 }

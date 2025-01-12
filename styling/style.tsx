@@ -44,8 +44,8 @@ const style = StyleSheet.create({
         flexDirection: "row",
     },
     rowContainerSpaceBtwn: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        flexDirection: "row",
+        justifyContent: "space-between",
     },
     flexRowContainer: {
         flexDirection: "row",
@@ -53,15 +53,15 @@ const style = StyleSheet.create({
     },
     paddedFlexContainer: {
         flex: 1,
-        padding: 20
+        padding: 20,
     },
     vertPadddedFlexContainer: {
         flex: 1,
-        paddingVertical: 20
+        paddingVertical: 20,
     },
     horiPaddedFlexContainer: {
         flex: 1,
-        paddingHorizontal: 20
+        paddingHorizontal: 20,
     },
     borderedContainer: {
         borderWidth: 1,
@@ -85,25 +85,45 @@ const style = StyleSheet.create({
         fontSize: 15,
         paddingVertical: 5,
     },
+    h1c: {
+        fontSize: 40,
+        paddingVertical: 20,
+        textAlign: "center",
+    },
+    h2c: {
+        fontSize: 30,
+        paddingVertical: 15,
+        textAlign: "center",
+    },
+    h3c: {
+        fontSize: 20,
+        paddingVertical: 10,
+        textAlign: "center",
+    },
+    h4c: {
+        fontSize: 15,
+        paddingVertical: 5,
+        textAlign: "center",
+    },
     h1b: {
         fontSize: 40,
-        fontWeight: 'bold',
-        color: 'red'
+        fontWeight: "bold",
+        color: "red",
     },
     h2b: {
         fontSize: 30,
-        fontWeight: 'bold',
-        color: 'red',
+        fontWeight: "bold",
+        color: "red",
     },
     h3b: {
         fontSize: 20,
-        fontWeight: 'bold',
-        color: 'red',
+        fontWeight: "bold",
+        color: "red",
     },
     h4b: {
         fontSize: 15,
-        fontWeight: 'bold',
-        color: 'red',
+        fontWeight: "bold",
+        color: "red",
     },
     t1: {
         fontSize: 40,
@@ -186,8 +206,8 @@ const style = StyleSheet.create({
         backgroundColor: BG_COLOR_POPUP,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
-        paddingTop: 20
-    }
+        paddingTop: 20,
+    },
 });
 
 export default style;
