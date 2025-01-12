@@ -6,6 +6,8 @@ import IconButton from "./IconButton";
 import { useEffect, useState } from "react";
 import TransactionDisplay from "./TransactionDisplay";
 import { router } from "expo-router";
+import * as FileSystem from "expo-file-system";
+import { NEW_TRANSACTION_DATE_FILE_PATH } from "@/constants/SaveFileAddress";
 
 type CalendarProps = {
     date: Date; // any date within the month
@@ -97,8 +99,12 @@ export default function Calendar({ date, transactionsMap, setDate }: CalendarPro
     // used to store modal's visibility
     const [isVisible, setVisible] = useState(false);
 
-    const handleCreateTransaction = () => {
+    const handleCreateTransaction = async () => {
         setVisible(false);
+        await FileSystem.writeAsStringAsync(
+            NEW_TRANSACTION_DATE_FILE_PATH,
+            new Date(date.getFullYear(), date.getMonth(), selectedDate).toString()
+        );
         router.push("/Pages/CreateTransaction/CreateTransaction");
     };
 

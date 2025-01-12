@@ -1,12 +1,12 @@
-import { View, Text, TextInput, Button, Alert, TouchableOpacity, Modal } from "react-native";
-import { useRef, useState } from "react";
+import { View, Text, TextInput, Alert, TouchableOpacity, Modal } from "react-native";
+import { useEffect, useRef, useState } from "react";
 import DropdownSelector from "@/components/myComponents/DropdownSelector";
 import DatePicker from "@/components/myComponents/DatePicker";
 import { Transaction } from "@/classes/Transaction";
 import style from "@/styling/style";
 import { TransactionType } from "@/classes/TransactionType";
 import * as FileSystem from "expo-file-system";
-import { SAVE_FILE_PATH } from "@/constants/SaveFileAddress";
+import { NEW_TRANSACTION_DATE_FILE_PATH, SAVE_FILE_PATH } from "@/constants/SaveFileAddress";
 import { router } from "expo-router";
 import ManageTransactionTypes from "./ManageTransactionTypes";
 import IconButton from "@/components/myComponents/IconButton";
@@ -17,6 +17,15 @@ export default function CreateTransactionPage() {
     const [amount, setAmount] = useState<number>(0);
     const [date, setDate] = useState(new Date());
     const [description, setDescription] = useState("");
+
+    useEffect(() => {
+        getTargetDate();
+    }, []);
+
+    const getTargetDate = async () => {
+        const date = await FileSystem.readAsStringAsync(NEW_TRANSACTION_DATE_FILE_PATH);
+        setDate(new Date(date));
+    };
 
     const showAlertError = (typeNotDefined: boolean, amountEqualsZero: boolean) => {
         const errorMsg = (typeNotDefined ? "No type chosen\n" : "") + (amountEqualsZero ? "Amount cannot be 0" : "");
@@ -90,8 +99,8 @@ export default function CreateTransactionPage() {
     const [isCreateNewTypeWindowOpen, setisCreateNewTypeWindowOpen] = useState(false);
 
     const handleSave = async () => {
-        if (transactionType == 'Select Type' || amount == 0) {
-            showAlertError(transactionType == 'Select Type', amount == 0);
+        if (transactionType == "Select Type" || amount == 0) {
+            showAlertError(transactionType == "Select Type", amount == 0);
             return;
         }
         await appendNewTransaction();
@@ -156,8 +165,8 @@ export default function CreateTransactionPage() {
                     </View>
                 </View>
                 <View style={style.rowContainer}>
-                    <IconButton name="window-close" color='red' title="Close" onPress={() => router.back()} />
-                    <IconButton name='floppy-o' color="green" title="Save" onPress={handleSave} />
+                    <IconButton name="window-close" color="red" title="Close" onPress={() => router.back()} />
+                    <IconButton name="floppy-o" color="green" title="Save" onPress={handleSave} />
                 </View>
             </View>
         </View>

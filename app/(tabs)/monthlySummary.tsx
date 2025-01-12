@@ -23,7 +23,6 @@ export default function MonthlySummaryPage() {
 
     useFocusEffect(
         useCallback(() => {
-            console.log('focus');
             // methods to execute when tab is focused
             loadData();
             return () => {
@@ -112,10 +111,10 @@ export default function MonthlySummaryPage() {
         setPieChartData(data);
     };
 
-    const togglePieChartContainer = (newIsOpenValue:boolean) => {
+    const togglePieChartContainer = (newIsOpenValue: boolean) => {
         loadPieChart();
         setIsPieChartVisible(newIsOpenValue);
-    }
+    };
 
     const chartConfig = {
         backgroundGradientFrom: "#1E2923",
@@ -127,7 +126,7 @@ export default function MonthlySummaryPage() {
         barPercentage: 0.5,
         useShadowColorFromDataset: false, // optional
     };
-    
+
     return (
         <View style={style.pageContainer}>
             <View style={style.flexContainer}>
