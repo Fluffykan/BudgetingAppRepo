@@ -109,21 +109,25 @@ const style = StyleSheet.create({
         fontSize: 40,
         fontWeight: "bold",
         color: "red",
+        paddingVertical: 20,
     },
     h2b: {
         fontSize: 30,
         fontWeight: "bold",
         color: "red",
+        paddingVertical: 15,
     },
     h3b: {
         fontSize: 20,
         fontWeight: "bold",
         color: "red",
+        paddingVertical: 10,
     },
     h4b: {
         fontSize: 15,
         fontWeight: "bold",
         color: "red",
+        paddingVertical: 5,
     },
     t1: {
         fontSize: 40,

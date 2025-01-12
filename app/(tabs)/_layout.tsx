@@ -35,15 +35,15 @@ export default function TabLayout() {
       <Tabs.Screen
         name="monthlySummary"
         options={{
-          title: 'Summary',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />,
+          title: 'Calendar',
+          tabBarIcon: ({ color }) => <FontAwesome size={28} name="calendar" color={color} />,
         }}
       />
       <Tabs.Screen
         name="trends"
         options={{
           title: 'Trends',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />,
+          tabBarIcon: ({ color }) => <FontAwesome size={28} name="line-chart" color={color} />,
         }}
       />
     </Tabs>
