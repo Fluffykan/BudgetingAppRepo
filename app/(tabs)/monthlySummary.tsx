@@ -11,6 +11,10 @@ import { PieChart } from "react-native-chart-kit";
 import { TransactionType } from "@/classes/TransactionType";
 import DropdownTrayHeader from "@/components/myComponents/DropdownTrayHeader";
 
+/**
+ * Creates a page containing a {@code Calendar} and a Pie Chart to display the breakdown of monthly spending
+ * @returns
+ */
 export default function MonthlySummaryPage() {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [monthlyTransactionsMap, setMap] = useState<Map<string, Transaction[]>>(new Map());

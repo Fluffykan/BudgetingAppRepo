@@ -10,18 +10,21 @@ import * as FileSystem from "expo-file-system";
 import { NEW_TRANSACTION_DATE_FILE_PATH } from "@/constants/SaveFileAddress";
 
 type CalendarProps = {
-    date: Date; // any date within the month
-    setDate: (date: Date) => void; // useState setter method to set the date
-    transactionsMap: Map<string, Transaction[]>; // the list of transactions in the month
-    transactions: Transaction[]; // array of all transactions
+    date: Date;
+    setDate: (date: Date) => void;
+    transactionsMap: Map<string, Transaction[]>;
+    transactions: Transaction[];
     setTransactions: (t: Transaction[]) => void;
 };
 
 /**
  * Creates the UI of a calendar
  *
- * @param date any date within the month
- * @param transactions an array of transactions that occured within the month
+ * @param date Any date within the month
+ * @param setDate
+ * @param transactionsMap The map of all transactions grouped by month
+ * @param transactions An array of transactions that occured within the month
+ * @param setTransactions
  * @returns a 5x7 grid composed of {@code CalendarGridEnabled} or {@code CalendarGridDisabled}
  * representing a month on the calendar
  */
@@ -81,7 +84,8 @@ export default function Calendar({ date, transactionsMap, transactions, setTrans
     const [selectedDate, setSelectedDate] = useState(0);
     // declare variable to store the array of transactions on the selected date
     const [transactionsOnDate, setTransactionsOnDate] = useState<Transaction[]>([]);
-    // useEffect to update the array of transactions whenever user selects a new date
+
+    // useEffect to update the array of transactions whenever user selects a new date or the map has been updated due to deletions of transactions
     useEffect(() => {
         const transactionArr: Transaction[] | undefined = transactionsMap
             .get(DateMethod.format_MMyyyy(date))
@@ -156,6 +160,14 @@ type PopupDateNavBarProps = {
     setDateInMonth: (newDate: Date) => void;
 };
 
+/**
+ * Creates the UI for a navbar for the user to navigate across days in a month
+ *
+ * @param numberDate The date of the month currently selected
+ * @param setNumberDate
+ * @param dateInMonth Any Date object within the month
+ * @param setDateInMonth
+ */
 function PopupDateNavBar({ numberDate, setNumberDate, dateInMonth, setDateInMonth }: PopupDateNavBarProps) {
     function handleNextDay() {
         if (numberDate < DateMethod.getDaysInMonth(dateInMonth)) {
@@ -206,6 +218,12 @@ type CalendarMonthNavBarProps = {
     setDate: (date: Date) => void;
 };
 
+/**
+ * Creates the UI for a navbar for the user to navigate across months
+ *
+ * @param date Any date within the month
+ * @param setDate
+ */
 function CalendarMonthNavBar({ date, setDate }: CalendarMonthNavBarProps) {
     function handlePrevMonth() {
         let prevMonth: number = date.getMonth() - 1;
@@ -239,7 +257,7 @@ function CalendarMonthNavBar({ date, setDate }: CalendarMonthNavBarProps) {
 /**
  * Creates the UI for the header of the calendar with the name of the days
  *
- * @returns a row of 7 views each containing a name of a day
+ * @returns A row of 7 views each containing a name of a day
  */
 function CalendarGridRowHeader() {
     return (
@@ -262,8 +280,10 @@ type CalendarGridRowProps = {
 /**
  * Creates the UI of a week on the calendar
  *
- * @param dates an array containing the dates for the days of the particular week
- * @returns a row of 7 {@code CalendarGrid} representing a week with their corresponding dates.
+ * @param dates An array containing the dates for the days of the particular week
+ * @param transactionValues An array containing the total value of transactions on each day of the month
+ * @param handleOpenModal A method to set the date to the date the user has selected
+ * @returns A row of 7 {@code CalendarGrid} representing a week with their corresponding dates.
  */
 function CalendarGridRow({ dates, transactionValues, handleOpenModal }: CalendarGridRowProps) {
     return (
@@ -295,10 +315,10 @@ type CalendarGridEnabledProps = {
 /**
  * Creates the UI for an individual grid on the calendar that is a valid date of the month
  *
- * @param date the date the grid represents
- * @param transactionAmt the total value of transactions on the day
- * @param setSelected the function to set the selected date on the calendar
- * @returns a view containing the date and transaction amount (if applicable)
+ * @param date The date the grid represents
+ * @param transactionAmt The total value of transactions on the day
+ * @param setSelected The function to set the selected date on the calendar
+ * @returns A view containing the date and transaction amount (if applicable)
  */
 function CalendarGridEnabled({ date, transactionAmt, handleOpenModal }: CalendarGridEnabledProps) {
     return (
@@ -314,7 +334,7 @@ function CalendarGridEnabled({ date, transactionAmt, handleOpenModal }: Calendar
 /**
  * Creates the UI for an individual grid on the calendar that is not a valid date of the month
  *
- * @returns a greyed out View component
+ * @returns A greyed out View component
  */
 function CalendarGridDisabled() {
     return <View style={style.calendarGridDisabled} />;

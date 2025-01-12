@@ -12,6 +12,14 @@ type TransactionDisplayProps = {
     styling?: "normal" | "popup";
 };
 
+/**
+ * Creates the UI for a list of transactions
+ *
+ * @param transactions The transactions to be displayed
+ * @param masterList The array of all transactions
+ * @param setMasterList
+ * @param styling UI modifications based on where the component is used
+ */
 export default function TransactionDisplay({
     transactions,
     masterList,
